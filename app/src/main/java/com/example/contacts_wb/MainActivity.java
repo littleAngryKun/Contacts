@@ -51,13 +51,13 @@ public class MainActivity extends Activity implements OnClickListener {
 
     private void initViews() {
         characterParser = CharacterParser.getInstance();
-
+        //获取视图中的控件对象，包括 ListView、SideBar、TextView 等。
         pinyinComparator = new PinyinComparator();
-        xuanfuLayout = (LinearLayout) findViewById(R.id.top_layout);
+        xuanfuLayout = (LinearLayout) findViewById(R.id.top_layout);//顶部悬浮的 layout 对象
         xuanfaText = (TextView) findViewById(R.id.top_char);
-        sideBar = (SideBar) findViewById(R.id.sidrbar);
-        dialog = (TextView) findViewById(R.id.dialog);
-        QunFa = (TextView) findViewById(R.id.qunfa);
+        sideBar = (SideBar) findViewById(R.id.sidrbar);//SideBar 对象
+        dialog = (TextView) findViewById(R.id.dialog);//提示弹框的 TextView 对象
+        QunFa = (TextView) findViewById(R.id.qunfa);//群发按钮对象
         QunFa.setOnClickListener(this);
         sideBar.setTextView(dialog);
 
@@ -99,6 +99,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         });
 
+        //将联系人列表中的数据填充到 SortModel 对象中，并根据首字母进行排序
         SourceDateList = filledData(getResources().getStringArray(R.array.date));// 填充数据
 
         Collections.sort(SourceDateList, pinyinComparator);
