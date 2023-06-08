@@ -60,10 +60,11 @@ public class MainActivity extends Activity implements OnClickListener {
         dialog = (TextView) findViewById(R.id.dialog);//提示弹框的 TextView 对象
         QunFa = (TextView) findViewById(R.id.qunfa);//群发按钮对象
         QunFa.setOnClickListener(this);
-        sideBar.setTextView(dialog);
+        sideBar.setTextView(dialog);//设置提示弹框
 
         /**
          * 为右边添加触摸事件
+         * 为侧边栏的OnTouchingLetterChangedListener添加了一个回调方法，当用户滑动侧边栏时，它将滑动到与该字母分组相同的第一个条目。
          */
         sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
 
@@ -78,6 +79,9 @@ public class MainActivity extends Activity implements OnClickListener {
         });
 
         sortListView = (ListView) findViewById(R.id.country_lvcountry);
+        // 为列表视图的OnItemClickListener添加了一个回调方法。
+        // 当用户单击列表项时，如果isNeedChecked为false，则显示一个包含所选项名称的短暂提示。
+        // 否则，将更改所选项的状态，并调用notifyDataSetChanged()方法来刷新列表项的状态。
         sortListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -88,6 +92,7 @@ public class MainActivity extends Activity implements OnClickListener {
                     Toast.makeText(getApplication(),
                             ((SortModel) adapter.getItem(position)).getName(),
                             Toast.LENGTH_SHORT).show();
+                    //todo 在这里要修改为跳转到详情界面
                 } else {
                     SourceDateList.get(position).setChecked(
                             !SourceDateList.get(position).isChecked());
@@ -155,6 +160,7 @@ public class MainActivity extends Activity implements OnClickListener {
         });
 
     }
+
 
     /**
      * 填充数据
