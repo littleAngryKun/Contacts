@@ -32,6 +32,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private SideBar sideBar; // 右边的引导
     private TextView dialog;
     private SortAdapter adapter; // 排序的适配器
+    private RecyclerViewAdapter recyclerViewAdapter;//RecyclerView的适配器
 
     private CharacterParser characterParser;
     private List<SortModel> SourceDateList; // 数据
@@ -157,26 +158,29 @@ public class MainActivity extends Activity implements OnClickListener {
 
     /**
      * 填充数据
-     *
      * @param date
      * @return
      */
     private List<SortModel> filledData(String[] date) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
-
+        //遍历输入的字符串数组，并为每个字符串创建一个SortModel对象。
         for (int i = 0; i < date.length; i++) {
             SortModel sortModel = new SortModel();
             sortModel.setName(date[i]);
-            sortModel.setSex(i % 2);
+            sortModel.setSex(i % 2);//先随便设置性别
+            /**
+             * 使用characterParser对象的getSelling()方法获取每个字符串的拼音，并从拼音中提取第一个字符。
+             * 然后，它将字符转换为大写字母，并将结果存储在sortString字符串变量中。
+             */
             String pinyin = characterParser.getSelling(date[i]);
             String sortString = pinyin.substring(0, 1).toUpperCase();
-
+            //如果是字母，将首字母存储在SortModel对象的sortLetters属性中，并将该字母转换为大写字母。
+            // 否则，将#存储在sortLetters属性中，表示该字符串不以字母开头。
             if (sortString.matches("[A-Z]")) {
                 sortModel.setSortLetters(sortString.toUpperCase());
             } else {
                 sortModel.setSortLetters("#");
             }
-
             mSortList.add(sortModel);
         }
         return mSortList;

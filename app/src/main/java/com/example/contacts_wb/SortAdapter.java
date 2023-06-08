@@ -15,6 +15,7 @@ import android.widget.TextView;
 /**
  * @author
  * 适配器
+ * 将多个 SortModel 对象组合成一个列表，然后使用 SortAdapter 类对该列表进行适配，以便实现联系人列表的显示和搜索等功能。
  */
 public class SortAdapter extends BaseAdapter implements SectionIndexer {
 	private List<SortModel> list = null;
