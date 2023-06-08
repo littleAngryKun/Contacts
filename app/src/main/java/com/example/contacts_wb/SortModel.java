@@ -3,8 +3,9 @@ package com.example.contacts_wb;
 import java.io.Serializable;
 
 /**
- * @author J
- *
+ * @author
+ * SortModel 对象是用于表示联系人信息的，可以将多个 SortModel 对象组合成一个列表，
+ * 然后对该列表进行排序，以便实现联系人列表的显示和搜索等功能。
  */
 public class SortModel implements Serializable {
 

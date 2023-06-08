@@ -13,7 +13,8 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 /**
- * @author J 适配器
+ * @author
+ * 适配器
  */
 public class SortAdapter extends BaseAdapter implements SectionIndexer {
 	private List<SortModel> list = null;

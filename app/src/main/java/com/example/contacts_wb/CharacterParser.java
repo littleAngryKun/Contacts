@@ -8,8 +8,8 @@ package com.example.contacts_wb;
 
 
 /**
- * 中文转拼音转换类
- * @author J
+ * 实现了一个汉语拼音转换工具
+ * @author
  *
  */
 public class CharacterParser {
@@ -59,32 +59,42 @@ public class CharacterParser {
 			"yin", "ying", "yo", "yong", "you", "yu", "yuan", "yue", "yun", "za", "zai", "zan", "zang", "zao", "ze", "zei", "zen", "zeng", "zha",
 			"zhai", "zhan", "zhang", "zhao", "zhe", "zhen", "zheng", "zhi", "zhong", "zhou", "zhu", "zhua", "zhuai", "zhuan", "zhuang", "zhui",
 			"zhun", "zhuo", "zi", "zong", "zou", "zu", "zuan", "zui", "zun", "zuo"};
-	private StringBuilder buffer;
-	private String resource;
-	private static CharacterParser characterParser = new CharacterParser();
+	private StringBuilder buffer;//存储转换后的结果
+	private String resource;//表示需要转换的汉语字符串。
+	private static CharacterParser characterParser = new CharacterParser();//建了一个 CharacterParser 类的静态实例
 
 	public static CharacterParser getInstance() {
+		//获取 CharacterParser 的实例。
 		return characterParser;
 	}
 
 	public String getResource() {
 		return resource;
-	}
+	}//获取需要转换的汉语字符串。
 
 	public void setResource(String resource) {
 		this.resource = resource;
 	}
 
+	/*
+	* 将汉字转换为对应的 ASCII 码。
+	* 将汉字字符串按照 GB2312 编码转换为字节数组，然后再根据字节数组的长度判断汉字的个数，
+	* 最后将每个汉字的 ASCII 码计算出来。如果汉字字符串不是 GB2312 编码的，则会抛出异常。
+	* */
 	private int getChsAscii(String chs) {
 		int asc = 0;
 		try {
+			//尝试将汉字字符串按照 GB2312 编码转换为字节数组，如果转换失败则会抛出异常。
 			byte[] bytes = chs.getBytes("gb2312");
 			if (bytes == null || bytes.length > 2 || bytes.length <= 0) {
+				//判断字节数组的长度，如果为 null 或者大于 2 或者小于等于 0，则表示该汉字字符串不合法，会抛出运行时异常。
 				throw new RuntimeException("illegal resource string");
 			}
+			//如果字节数组的长度为 1，则表示该汉字只有一个字节，直接将该字节赋值给 asc。
 			if (bytes.length == 1) {
 				asc = bytes[0];
 			}
+			//如果字节数组的长度为 2，则表示该汉字有两个字节，需要将两个字节合并为一个整数，计算公式为 (256 * hightByte + lowByte) - 256 * 256
 			if (bytes.length == 2) {
 				int hightByte = 256 + bytes[0];
 				int lowByte = 256 + bytes[1];
@@ -95,13 +105,22 @@ public class CharacterParser {
 		}
 		return asc;
 	}
-
+	/*
+	* 将 ASCII 码转换为对应的拼音的功能。
+	* 将每个 ASCII 码与预设的拼音表进行比较，找到对应的拼音。
+	* 如果 ASCII 码小于等于 0 或者大于等于 160，则表示该字符无法转换为拼音。
+	* 原理：
+	* 在 GB2312 编码中，一个汉字占用两个字节，每个字节都是一个 8 位的二进制数，因此一个汉字的编码范围是 0x8140 - 0xFEFE，
+	* 其中高位字节的范围是 0x81 - 0xFE，低位字节的范围是 0x40 - 0xFE。由于 ASCII 码的范围是 0x00 - 0x7F，
+	* 因此在 GB2312 编码中，ASCII 码的编码范围是 0x00 - 0x7F，它刚好包含了 GB2312 编码中高位字节为 0 的所有汉字。
+	* 因此，对于这些汉字，它们的 ASCII 码在 0-160 之间，可以直接用 ASCII 码来表示。
+	* */
 	public String convert(String str) {
 		String result = null;
 		int ascii = getChsAscii(str);
 		if (ascii > 0 && ascii < 160) {
 			result = String.valueOf((char) ascii);
-		} else {
+		} else {//在拼音表中查找该 ASCII 码对应的拼音。
 			for (int i = (pyvalue.length - 1); i >= 0; i--) {
 				if (pyvalue[i] <= ascii) {
 					result = pystr[i];
@@ -111,7 +130,10 @@ public class CharacterParser {
 		}
 		return result;
 	}
-
+	/*
+	* 将汉字字符串转换为对应的拼音字符串的功能。
+	* 具体实现过程是遍历汉字字符串中的每个汉字，将其转换为对应的拼音，如果无法转换则用 "unknown" 代替。
+	* */
 	public String getSelling(String chs) {
 		String key, value;
 		buffer = new StringBuilder();
@@ -125,7 +147,7 @@ public class CharacterParser {
 			} else {
 				value = key;
 			}
-			buffer.append(value);
+			buffer.append(value);//转换后的拼英加入到结果buffer
 		}
 		return buffer.toString();
 	}
