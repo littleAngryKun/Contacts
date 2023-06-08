@@ -20,10 +20,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<SortModel> mList;
     private Context mContext;
     private boolean mIsNeedCheck;//表示是否需要显示勾选框的标志
+    private OnItemClickListener onItemClickListener;
 
-    public RecyclerViewAdapter(Context context, List<SortModel> list){
+    public interface OnItemClickListener{
+        public void onItemClick(View view, int position);
+    }
+    public Object getItem(int position) {
+        return mList.get(position);
+    }
+    public RecyclerViewAdapter(Context context, List<SortModel> list,OnItemClickListener onItemClickListener){
         this.mContext = context;
         this.mList = list;
+        this.onItemClickListener = onItemClickListener;
     }
     public void upDateData(List<SortModel> list){//当数据发生更改时，调用此函数
         this.mList = list;
@@ -36,7 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view,onItemClickListener);
     }
 
     @Override
@@ -110,17 +118,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mList.get(position).getSortLetters().charAt(0);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{//列表项的视图
-        TextView tvLetter;
-        TextView tvTitle;
-        ImageView checked, icon, sex;
-        public ViewHolder(@NonNull View itemView) {
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{//列表项的视图
+        private TextView tvLetter;
+        private TextView tvTitle;
+        private ImageView checked, icon, sex;
+        private OnItemClickListener onItemClickListener;
+
+        public ViewHolder(@NonNull View itemView,final OnItemClickListener onItemClickListener) {
             super(itemView);
             tvLetter = itemView.findViewById(R.id.catalog);
             tvTitle = itemView.findViewById(R.id.tv_user_item_name);
             checked = itemView.findViewById(R.id.iv_user_item_check);
             icon = itemView.findViewById(R.id.iv_user_item_icon);
             sex = itemView.findViewById(R.id.iv_user_item_sex);
+            this.onItemClickListener = onItemClickListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(onItemClickListener !=null){
+                onItemClickListener.onItemClick(v,getAdapterPosition());
+            }
         }
     }
 }

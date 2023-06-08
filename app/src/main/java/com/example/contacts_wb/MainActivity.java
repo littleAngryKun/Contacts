@@ -21,17 +21,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 
 /**
  * @author J 实现了 基础的功能 感谢这位博主，该源码是基于它修改的。
  *         http://blog.csdn.net/xiaanming/article/details/12684155
  *
  */
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends Activity implements OnClickListener ,RecyclerViewAdapter.OnItemClickListener{
     private ListView sortListView;
     private SideBar sideBar; // 右边的引导
     private TextView dialog;
     private SortAdapter adapter; // 排序的适配器
+
+    private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;//RecyclerView的适配器
 
     private CharacterParser characterParser;
@@ -70,79 +76,79 @@ public class MainActivity extends Activity implements OnClickListener {
 
             @Override
             public void onTouchingLetterChanged(String s) {
-                int position = adapter.getPositionForSection(s.charAt(0));
+                int position = recyclerViewAdapter.getPositionForSection(s.charAt(0));
                 if (position != -1) {
-                    sortListView.setSelection(position);
+                    ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
                 }
 
             }
         });
 
-        sortListView = (ListView) findViewById(R.id.country_lvcountry);
+        //recyclerView = (RecyclerView) findViewById(R.id.country_lvcountry);
         // 为列表视图的OnItemClickListener添加了一个回调方法。
         // 当用户单击列表项时，如果isNeedChecked为false，则显示一个包含所选项名称的短暂提示。
         // 否则，将更改所选项的状态，并调用notifyDataSetChanged()方法来刷新列表项的状态。
-        sortListView.setOnItemClickListener(new OnItemClickListener() {
+//        sortListView.setOnItemClickListener(new OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view,
+//                                    int position, long id) {
+//
+//                if (!isNeedChecked) {
+//                    Toast.makeText(getApplication(),
+//                            ((SortModel) adapter.getItem(position)).getName(),
+//                            Toast.LENGTH_SHORT).show();
+//                    //todo 在这里要修改为跳转到详情界面
+//                } else {
+//                    SourceDateList.get(position).setChecked(
+//                            !SourceDateList.get(position).isChecked());
+//                    adapter.notifyDataSetChanged(); // 这样写效率很低， 以后可以改成
+//                    // RecycleView 直接notify
+//                    // item的状态
+//                }
+//
+//            }
+//
+//        });
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                if (!isNeedChecked) {
-                    Toast.makeText(getApplication(),
-                            ((SortModel) adapter.getItem(position)).getName(),
-                            Toast.LENGTH_SHORT).show();
-                    //todo 在这里要修改为跳转到详情界面
-                } else {
-                    SourceDateList.get(position).setChecked(
-                            !SourceDateList.get(position).isChecked());
-                    adapter.notifyDataSetChanged(); // 这样写效率很低， 以后可以改成
-                    // RecycleView 直接notify
-                    // item的状态
-                }
-
-            }
-
-        });
 
         //将联系人列表中的数据填充到 SortModel 对象中，并根据首字母进行排序
         SourceDateList = filledData(getResources().getStringArray(R.array.date));// 填充数据
 
         Collections.sort(SourceDateList, pinyinComparator);
-        adapter = new SortAdapter(this, SourceDateList);
-        sortListView.setAdapter(adapter);
+        //adapter = new SortAdapter(this, SourceDateList);
+        //sortListView.setAdapter(adapter);
 
-        /**
-         * 设置滚动监听， 实时跟新悬浮的字母的值
-         */
-        sortListView.setOnScrollListener(new OnScrollListener() {
+        recyclerView = (RecyclerView) findViewById(R.id.country_lvcountry);
+        recyclerViewAdapter = new RecyclerViewAdapter(this,SourceDateList,this::onItemClick);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(recyclerViewAdapter);
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            private int lastFirstVisibleItem = -1;
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                // TODO Auto-generated method stub
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-            }
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem,
-                                 int visibleItemCount, int totalItemCount) {
-                int section = adapter.getSectionForPosition(firstVisibleItem);
-                int nextSecPosition = adapter
-                        .getPositionForSection(section + 1);
+                int section = recyclerViewAdapter.getSectionForPosition(firstVisibleItem);
+                int nextSecPosition = recyclerViewAdapter.getPositionForSection(section + 1);
+
                 if (firstVisibleItem != lastFirstVisibleItem) {
-                    MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout
-                            .getLayoutParams();
+                    MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout.getLayoutParams();
                     params.topMargin = 0;
                     xuanfuLayout.setLayoutParams(params);
                     xuanfaText.setText(String.valueOf((char) section));
                 }
+
                 if (nextSecPosition == firstVisibleItem + 1) {
-                    View childView = view.getChildAt(0);
+                    View childView = layoutManager.getChildAt(0);
                     if (childView != null) {
                         int titleHeight = xuanfuLayout.getHeight();
                         int bottom = childView.getBottom();
-                        MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout
-                                .getLayoutParams();
+                        MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout.getLayoutParams();
                         if (bottom < titleHeight) {
                             float pushedDistance = bottom - titleHeight;
                             params.topMargin = (int) pushedDistance;
@@ -155,12 +161,73 @@ public class MainActivity extends Activity implements OnClickListener {
                         }
                     }
                 }
+
                 lastFirstVisibleItem = firstVisibleItem;
             }
         });
+//        recyclerViewAdapter.setOnItemClickListener(new recyclerViewAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                if (!isNeedChecked) {
+//                    Toast.makeText(getApplicationContext(),
+//                            ((SortModel) adapter.getItem(position)).getName(),
+//                            Toast.LENGTH_SHORT).show();
+//                    //todo 在这里要修改为跳转到详情界面
+//                } else {
+//                    SourceDateList.get(position).setChecked(
+//                            !SourceDateList.get(position).isChecked());
+//                    adapter.notifyItemChanged(position);
+//                }
+//            }
+//        });
+        /**
+         * 设置滚动监听， 实时跟新悬浮的字母的值
+         */
+//        sortListView.setOnScrollListener(new OnScrollListener() {
+//
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                // TODO Auto-generated method stub
+//
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem,
+//                                 int visibleItemCount, int totalItemCount) {
+//                int section = adapter.getSectionForPosition(firstVisibleItem);
+//                int nextSecPosition = adapter
+//                        .getPositionForSection(section + 1);
+//                if (firstVisibleItem != lastFirstVisibleItem) {
+//                    MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout
+//                            .getLayoutParams();
+//                    params.topMargin = 0;
+//                    xuanfuLayout.setLayoutParams(params);
+//                    xuanfaText.setText(String.valueOf((char) section));
+//                }
+//                if (nextSecPosition == firstVisibleItem + 1) {
+//                    View childView = view.getChildAt(0);
+//                    if (childView != null) {
+//                        int titleHeight = xuanfuLayout.getHeight();
+//                        int bottom = childView.getBottom();
+//                        MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout
+//                                .getLayoutParams();
+//                        if (bottom < titleHeight) {
+//                            float pushedDistance = bottom - titleHeight;
+//                            params.topMargin = (int) pushedDistance;
+//                            xuanfuLayout.setLayoutParams(params);
+//                        } else {
+//                            if (params.topMargin != 0) {
+//                                params.topMargin = 0;
+//                                xuanfuLayout.setLayoutParams(params);
+//                            }
+//                        }
+//                    }
+//                }
+//                lastFirstVisibleItem = firstVisibleItem;
+//            }
+//        });
 
     }
-
 
     /**
      * 填充数据
@@ -223,14 +290,14 @@ public class MainActivity extends Activity implements OnClickListener {
         switch (v.getId()) {
             case R.id.qunfa:
                 if (isNeedChecked) {
-                    adapter.setNeedCheck(false);
+                    recyclerViewAdapter.setNeedCheck(false);
                     isNeedChecked = false;
                 } else {
 
-                    adapter.setNeedCheck(true);
+                    recyclerViewAdapter.setNeedCheck(true);
                     isNeedChecked = true;
                 }
-                adapter.notifyDataSetChanged();
+                recyclerViewAdapter.notifyDataSetChanged();
                 break;
 
             default:
@@ -239,4 +306,17 @@ public class MainActivity extends Activity implements OnClickListener {
 
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        if (!isNeedChecked) {
+            Toast.makeText(getApplicationContext(),
+                    ((SortModel) recyclerViewAdapter.getItem(position)).getName(),
+                    Toast.LENGTH_SHORT).show();
+            //todo 在这里添加代码，功能为跳转到详情界面
+        } else {
+            SourceDateList.get(position).setChecked(
+                    !SourceDateList.get(position).isChecked());
+            recyclerViewAdapter.notifyItemChanged(position);
+        }
+    }
 }
