@@ -51,6 +51,10 @@ public class add_people extends AppCompatActivity {
 
     public void add_people(View view) {
         String name = add_name.getText().toString();
-        String phone = add_phone.getText().toString();
+//        String phone = add_phone.getText().toString();
+
+
+
+
     }
 }

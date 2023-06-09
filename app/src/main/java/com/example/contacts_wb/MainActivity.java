@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -29,14 +30,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  *
  */
-public class MainActivity extends Activity implements OnClickListener ,RecyclerViewAdapter.OnItemClickListener{
+public class MainActivity extends AppCompatActivity implements OnClickListener ,RecyclerViewAdapter.OnItemClickListener{
     private ListView sortListView;
     private SideBar sideBar; // 右边的引导
     private TextView dialog;
@@ -47,21 +55,35 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
 
     private CharacterParser characterParser;
     private List<SortModel> SourceDateList; // 数据
+    List<Contact> contact;
 
     private PinyinComparator pinyinComparator;
     private LinearLayout xuanfuLayout; // 顶部悬浮的layout
     private TextView xuanfaText, QunFa, set_people; // 悬浮的文字， 和右上角的群发，增加和删除按钮
     private int lastFirstVisibleItem = -1;
     private boolean isNeedChecked; // 是否需要出现选择的按钮
-
+//    private WordViewModel mWordViewModel;
+    private ContactViewModel mContactViewModel;
+    public String[] ContactArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mContactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
+        mContactViewModel.getAllContacts().observe(this, new Observer<List<Contact>>() {
+            @Override
+            public void onChanged(@Nullable final List<Contact> contacts) {
+                //控制台打印：说明ContactArray拿到了数据库中的数据
+                //String [] cons = {"邱汉宸", "叶信托", "刘宇恒","李俊凯"};
+                ContactArray = new String[contacts.size()];
+                for (int i = 0; i < contacts.size(); i++) {
+                    ContactArray[i] = contacts.get(i).getName();
+                    System.out.println(ContactArray[i]);
+                }
+            }
+        });
         initViews();
-
-
-
     }
 
     private void initViews() {
@@ -77,7 +99,6 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
         QunFa.setOnClickListener(this);
         set_people.setOnClickListener(this);
         sideBar.setTextView(dialog);//设置提示弹框
-
         /**
          * 为右边添加触摸事件
          * 为侧边栏的OnTouchingLetterChangedListener添加了一个回调方法，当用户滑动侧边栏时，它将滑动到与该字母分组相同的第一个条目。
@@ -93,42 +114,11 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
 
             }
         });
-
-        //recyclerView = (RecyclerView) findViewById(R.id.country_lvcountry);
-        // 为列表视图的OnItemClickListener添加了一个回调方法。
-        // 当用户单击列表项时，如果isNeedChecked为false，则显示一个包含所选项名称的短暂提示。
-        // 否则，将更改所选项的状态，并调用notifyDataSetChanged()方法来刷新列表项的状态。
-//        sortListView.setOnItemClickListener(new OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view,
-//                                    int position, long id) {
-//
-//                if (!isNeedChecked) {
-//                    Toast.makeText(getApplication(),
-//                            ((SortModel) adapter.getItem(position)).getName(),
-//                            Toast.LENGTH_SHORT).show();
-//                    //todo 在这里要修改为跳转到详情界面
-//                } else {
-//                    SourceDateList.get(position).setChecked(
-//                            !SourceDateList.get(position).isChecked());
-//                    adapter.notifyDataSetChanged(); // 这样写效率很低， 以后可以改成
-//                    // RecycleView 直接notify
-//                    // item的状态
-//                }
-//
-//            }
-//
-//        });
-
-
         //将联系人列表中的数据填充到 SortModel 对象中，并根据首字母进行排序
         SourceDateList = filledData(getResources().getStringArray(R.array.date));// 填充数据
+//            SourceDateList= filledData (ContactArray);
 
         Collections.sort(SourceDateList, pinyinComparator);
-        //adapter = new SortAdapter(this, SourceDateList);
-        //sortListView.setAdapter(adapter);
-
         recyclerView = (RecyclerView) findViewById(R.id.country_lvcountry);
         recyclerViewAdapter = new RecyclerViewAdapter(this,SourceDateList,this::onItemClick);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -236,9 +226,7 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
 //                lastFirstVisibleItem = firstVisibleItem;
 //            }
 //        });
-
     }
-
     /**
      * 填充数据
      * @param date
@@ -246,6 +234,7 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
      */
     private List<SortModel> filledData(String[] date) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
+        //String[]data=
         //遍历输入的字符串数组，并为每个字符串创建一个SortModel对象。
         for (int i = 0; i < date.length; i++) {
             SortModel sortModel = new SortModel();

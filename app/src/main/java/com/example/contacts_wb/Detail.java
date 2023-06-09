@@ -17,7 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Detail extends AppCompatActivity {
     FloatingActionButton myfloat;
-
+    NewContact Contacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class Detail extends AppCompatActivity {
         TextView Name_textview = findViewById(R.id.profile_name);
         String name = Name_textview.getText().toString();
         //删除数据库
-
+        Contacts.Delete(name);
         Toast.makeText(getApplicationContext(),
                 "删除成功",
                 Toast.LENGTH_SHORT).show();

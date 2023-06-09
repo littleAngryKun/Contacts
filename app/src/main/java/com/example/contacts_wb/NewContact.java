@@ -6,15 +6,14 @@ import java.util.List;
 
 public class NewContact {
     List<SortModel> Contacts;
-    public NewContact(List<SortModel> contacts){
+    public NewContact(){
         this.Contacts= Contacts;
     }
     public List<SortModel> Add(SortModel contact){
         Contacts.add(contact);
         return Contacts;
     }
-    public List<SortModel> Delete(SortModel contact){
-        String Name=contact.getName();
+    public List<SortModel> Delete(String Name){
 //        Contacts.removeIf(sortModel -> sortModel.getName().equals(Name));
         for (SortModel sortModel : Contacts) { // 遍历 List 中的每个 SortModel 对象
             if (sortModel.getName().equals(Name)) { // 如果当前 SortModel 对象的 name 属性等于 "Alex"
@@ -24,15 +23,17 @@ public class NewContact {
         }
         return Contacts;
     }
-    public List<SortModel> Update(SortModel contact){
-        String Name=contact.getName();
+    public List<SortModel> Update(String Name){
+//        String Name=contact.getName();
+        SortModel target=null;
         for (SortModel sortModel : Contacts) { // 遍历 List 中的每个 SortModel 对象
             if (sortModel.getName().equals(Name)) { // 如果当前 SortModel 对象的 name 属性等于 "Alex"
+                target = sortModel;
                 Contacts.remove(sortModel); // 删除当前 SortModel 对象
                 break; // 跳出循环，只删除第一个遇到的对象
             }
         }
-        Contacts.add(contact);
+        Contacts.add(target);
         return Contacts;
     }
     public List<SortModel> Search(String Name){
