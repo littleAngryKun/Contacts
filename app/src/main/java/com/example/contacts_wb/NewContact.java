@@ -35,4 +35,16 @@ public class NewContact {
         Contacts.add(contact);
         return Contacts;
     }
+    public List<SortModel> Search(String Name){
+        List<SortModel> target=null;
+        for (SortModel sortModel : Contacts) { // 遍历 List 中的每个 SortModel 对象
+            if (sortModel.getName().contains(Name)) { // 如果当前 SortModel 对象的 name 属性等于 "Alex"
+                target.add(sortModel);
+            }
+        }
+        //需要对返回值的长度进行判断
+        //若长度为0，则搜索结果为空
+        //不为零，则返回所有包含“搜索内容”的联系人
+        return target;
+    }
 }
