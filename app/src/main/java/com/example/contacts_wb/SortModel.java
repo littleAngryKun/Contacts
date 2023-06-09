@@ -69,4 +69,5 @@ public class SortModel implements Serializable {
 	public void setSortLetters(String sortLetters) {
 		this.sortLetters = sortLetters;
 	}
+
 }

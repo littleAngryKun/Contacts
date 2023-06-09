@@ -28,8 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
- * @author J 实现了 基础的功   能 感谢这位博主，该源码是基于它修改的。
- *         http://blog.csdn.net/xiaanming/article/details/12684155
  *
  */
 public class MainActivity extends Activity implements OnClickListener ,RecyclerViewAdapter.OnItemClickListener{
@@ -258,7 +256,6 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
             mSortList.add(sortModel);
         }
         return mSortList;
-
     }
 
     /**
