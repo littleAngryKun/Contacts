@@ -17,8 +17,16 @@ public class add_people extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_people);
+
+        String message = getIntent().getStringExtra("name");
+
         add_name = findViewById(R.id.add_profile_name);
         add_phone = findViewById(R.id.add_profile_phone_number);
+
+        if (message != null) {
+            add_name.setText(message);
+//            add_phone.setText(提取对于名字message的号码);
+        }
 
         add_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
