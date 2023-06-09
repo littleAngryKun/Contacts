@@ -10,8 +10,8 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        android:layout_marginTop="116dp"
-        android:background="@drawable/border"
+        android:layout_marginTop="112dp"
+        android:background="@drawable/circle_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,8 +23,9 @@
         android:layout_width="150dp"
         android:layout_height="35dp"
         android:layout_marginTop="48dp"
-        android:background="@drawable/border"
-        android:gravity="left"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:text="联系人姓名"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -40,29 +41,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_name"
         app:layout_constraintVertical_bias="0.099"
-        android:gravity="center">
+        android:gravity="center" >
 
-        <TextView
-            android:id="@+id/profile_phone_number"
-            android:layout_width="250dp"
-            android:layout_height="35dp"
-            android:background="@drawable/border"
-            android:gravity="left"
-            android:text="联系人电话" />
+<!--        使用recyclerview，item使用phone_item.xml-->
 
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/baseline_phone_24"
-            android:background="@color/white"
-            android:onClick="call"/>
+<!--        <TextView-->
+<!--            android:id="@+id/profile_phone_number"-->
+<!--            android:layout_width="250dp"-->
+<!--            android:layout_height="35dp"-->
+<!--            android:background="@drawable/border"-->
+<!--            android:gravity="left"-->
+<!--            android:text="联系人电话" />-->
 
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/baseline_chat_bubble_24"
-            android:background="@color/white"
-            android:onClick="mail"/>
+<!--        <ImageButton-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:src="@drawable/baseline_phone_24"-->
+<!--            android:background="@color/white"-->
+<!--            android:onClick="call"/>-->
+
+<!--        <ImageButton-->
+<!--            android:layout_width="40dp"-->
+<!--            -->
+<!--            android:layout_height="40dp"-->
+<!--            android:src="@drawable/baseline_chat_bubble_24"-->
+<!--            android:background="@color/white"-->
+<!--            android:onClick="mail"/>-->
 
     </LinearLayout>
 

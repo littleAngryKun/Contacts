@@ -7,17 +7,23 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +52,7 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
 
     private PinyinComparator pinyinComparator;
     private LinearLayout xuanfuLayout; // 顶部悬浮的layout
-    private TextView xuanfaText, QunFa; // 悬浮的文字， 和右上角的群发
+    private TextView xuanfaText, QunFa, set_people; // 悬浮的文字， 和右上角的群发，增加和删除按钮
     private int lastFirstVisibleItem = -1;
     private boolean isNeedChecked; // 是否需要出现选择的按钮
 
@@ -55,6 +61,9 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+
+
+
     }
 
     private void initViews() {
@@ -66,7 +75,9 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
         sideBar = (SideBar) findViewById(R.id.sidrbar);//SideBar 对象
         dialog = (TextView) findViewById(R.id.dialog);//提示弹框的 TextView 对象
         QunFa = (TextView) findViewById(R.id.qunfa);//群发按钮对象
+        set_people = (TextView) findViewById(R.id.set_people); //增删按钮的绑定
         QunFa.setOnClickListener(this);
+        set_people.setOnClickListener(this);
         sideBar.setTextView(dialog);//设置提示弹框
 
         /**
@@ -301,6 +312,25 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
                 recyclerViewAdapter.notifyDataSetChanged();
                 break;
 
+            case R.id.set_people:
+                PopupWindow popupWindow = new PopupWindow(MainActivity.this);
+
+                // 设置 PopupWindow 的宽度和高度
+                popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                // 设置 PopupWindow 的内容视图
+                View contentView = LayoutInflater.from(MainActivity.this).inflate(R.layout.popup_menu, null);
+                popupWindow.setContentView(contentView);
+
+                // 设置 PopupWindow 的背景，以便在点击外部区域时自动关闭 PopupWindow
+                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                popupWindow.setOutsideTouchable(true);
+
+                // 显示 PopupWindow
+                popupWindow.showAsDropDown(set_people);
+                break;
+
             default:
                 break;
         }
@@ -322,5 +352,10 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
                     !SourceDateList.get(position).isChecked());
             recyclerViewAdapter.notifyItemChanged(position);
         }
+    }
+
+    public void add_activity(View view) {
+        Intent intent = new Intent(this, add_people.class);
+        startActivity(intent);
     }
 }
