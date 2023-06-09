@@ -32,7 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
  *         http://blog.csdn.net/xiaanming/article/details/12684155
  *
  */
-public class MainActivity extends Activity implements OnClickListener ,RecyclerViewAdapter.OnItemClickListener{
+public class MainActivity extends Activity implements OnClickListener {
     private ListView sortListView;
     private SideBar sideBar; // 右边的引导
     private TextView dialog;
@@ -77,79 +77,79 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
 
             @Override
             public void onTouchingLetterChanged(String s) {
-                int position = recyclerViewAdapter.getPositionForSection(s.charAt(0));
+                int position = adapter.getPositionForSection(s.charAt(0));
                 if (position != -1) {
-                    ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
+                    sortListView.setSelection(position);
                 }
 
             }
         });
 
-        //recyclerView = (RecyclerView) findViewById(R.id.country_lvcountry);
+        sortListView = (ListView) findViewById(R.id.country_lvcountry);
         // 为列表视图的OnItemClickListener添加了一个回调方法。
         // 当用户单击列表项时，如果isNeedChecked为false，则显示一个包含所选项名称的短暂提示。
         // 否则，将更改所选项的状态，并调用notifyDataSetChanged()方法来刷新列表项的状态。
-//        sortListView.setOnItemClickListener(new OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view,
-//                                    int position, long id) {
-//
-//                if (!isNeedChecked) {
-//                    Toast.makeText(getApplication(),
-//                            ((SortModel) adapter.getItem(position)).getName(),
-//                            Toast.LENGTH_SHORT).show();
-//                    //todo 在这里要修改为跳转到详情界面
-//                } else {
-//                    SourceDateList.get(position).setChecked(
-//                            !SourceDateList.get(position).isChecked());
-//                    adapter.notifyDataSetChanged(); // 这样写效率很低， 以后可以改成
-//                    // RecycleView 直接notify
-//                    // item的状态
-//                }
-//
-//            }
-//
-//        });
+        sortListView.setOnItemClickListener(new OnItemClickListener() {
 
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                if (!isNeedChecked) {
+                    Toast.makeText(getApplication(),
+                            ((SortModel) adapter.getItem(position)).getName(),
+                            Toast.LENGTH_SHORT).show();
+                    //todo 在这里要修改为跳转到详情界面
+                } else {
+                    SourceDateList.get(position).setChecked(
+                            !SourceDateList.get(position).isChecked());
+                    adapter.notifyDataSetChanged(); // 这样写效率很低， 以后可以改成
+                    // RecycleView 直接notify
+                    // item的状态
+                }
+
+            }
+
+        });
 
         //将联系人列表中的数据填充到 SortModel 对象中，并根据首字母进行排序
         SourceDateList = filledData(getResources().getStringArray(R.array.date));// 填充数据
 
         Collections.sort(SourceDateList, pinyinComparator);
-        //adapter = new SortAdapter(this, SourceDateList);
-        //sortListView.setAdapter(adapter);
+        adapter = new SortAdapter(this, SourceDateList);
+        sortListView.setAdapter(adapter);
 
-        recyclerView = (RecyclerView) findViewById(R.id.country_lvcountry);
-        recyclerViewAdapter = new RecyclerViewAdapter(this,SourceDateList,this::onItemClick);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(recyclerViewAdapter);
+        /**
+         * 设置滚动监听， 实时跟新悬浮的字母的值
+         */
+        sortListView.setOnScrollListener(new OnScrollListener() {
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            private int lastFirstVisibleItem = -1;
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                // TODO Auto-generated method stub
 
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
+            }
 
-                int section = recyclerViewAdapter.getSectionForPosition(firstVisibleItem);
-                int nextSecPosition = recyclerViewAdapter.getPositionForSection(section + 1);
-
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                int section = adapter.getSectionForPosition(firstVisibleItem);
+                int nextSecPosition = adapter
+                        .getPositionForSection(section + 1);
                 if (firstVisibleItem != lastFirstVisibleItem) {
-                    MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout.getLayoutParams();
+                    MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout
+                            .getLayoutParams();
                     params.topMargin = 0;
                     xuanfuLayout.setLayoutParams(params);
                     xuanfaText.setText(String.valueOf((char) section));
                 }
-
                 if (nextSecPosition == firstVisibleItem + 1) {
-                    View childView = layoutManager.getChildAt(0);
+                    View childView = view.getChildAt(0);
                     if (childView != null) {
                         int titleHeight = xuanfuLayout.getHeight();
                         int bottom = childView.getBottom();
-                        MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout.getLayoutParams();
+                        MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout
+                                .getLayoutParams();
                         if (bottom < titleHeight) {
                             float pushedDistance = bottom - titleHeight;
                             params.topMargin = (int) pushedDistance;
@@ -162,73 +162,12 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
                         }
                     }
                 }
-
                 lastFirstVisibleItem = firstVisibleItem;
             }
         });
-//        recyclerViewAdapter.setOnItemClickListener(new recyclerViewAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                if (!isNeedChecked) {
-//                    Toast.makeText(getApplicationContext(),
-//                            ((SortModel) adapter.getItem(position)).getName(),
-//                            Toast.LENGTH_SHORT).show();
-//                    //todo 在这里要修改为跳转到详情界面
-//                } else {
-//                    SourceDateList.get(position).setChecked(
-//                            !SourceDateList.get(position).isChecked());
-//                    adapter.notifyItemChanged(position);
-//                }
-//            }
-//        });
-        /**
-         * 设置滚动监听， 实时跟新悬浮的字母的值
-         */
-//        sortListView.setOnScrollListener(new OnScrollListener() {
-//
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem,
-//                                 int visibleItemCount, int totalItemCount) {
-//                int section = adapter.getSectionForPosition(firstVisibleItem);
-//                int nextSecPosition = adapter
-//                        .getPositionForSection(section + 1);
-//                if (firstVisibleItem != lastFirstVisibleItem) {
-//                    MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout
-//                            .getLayoutParams();
-//                    params.topMargin = 0;
-//                    xuanfuLayout.setLayoutParams(params);
-//                    xuanfaText.setText(String.valueOf((char) section));
-//                }
-//                if (nextSecPosition == firstVisibleItem + 1) {
-//                    View childView = view.getChildAt(0);
-//                    if (childView != null) {
-//                        int titleHeight = xuanfuLayout.getHeight();
-//                        int bottom = childView.getBottom();
-//                        MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout
-//                                .getLayoutParams();
-//                        if (bottom < titleHeight) {
-//                            float pushedDistance = bottom - titleHeight;
-//                            params.topMargin = (int) pushedDistance;
-//                            xuanfuLayout.setLayoutParams(params);
-//                        } else {
-//                            if (params.topMargin != 0) {
-//                                params.topMargin = 0;
-//                                xuanfuLayout.setLayoutParams(params);
-//                            }
-//                        }
-//                    }
-//                }
-//                lastFirstVisibleItem = firstVisibleItem;
-//            }
-//        });
 
     }
+
 
     /**
      * 填充数据
@@ -291,14 +230,14 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
         switch (v.getId()) {
             case R.id.qunfa:
                 if (isNeedChecked) {
-                    recyclerViewAdapter.setNeedCheck(false);
+                    adapter.setNeedCheck(false);
                     isNeedChecked = false;
                 } else {
 
-                    recyclerViewAdapter.setNeedCheck(true);
+                    adapter.setNeedCheck(true);
                     isNeedChecked = true;
                 }
-                recyclerViewAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
                 break;
 
             default:
