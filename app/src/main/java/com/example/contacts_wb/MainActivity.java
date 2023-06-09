@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -313,6 +314,9 @@ public class MainActivity extends Activity implements OnClickListener ,RecyclerV
                     ((SortModel) recyclerViewAdapter.getItem(position)).getName(),
                     Toast.LENGTH_SHORT).show();
             //todo 在这里添加代码，功能为跳转到详情界面
+            Intent intent = new Intent(this, Detail.class);
+            intent.putExtra("name", ((SortModel) recyclerViewAdapter.getItem(position)).getName());
+            startActivity(intent);
         } else {
             SourceDateList.get(position).setChecked(
                     !SourceDateList.get(position).isChecked());
