@@ -17,13 +17,13 @@ public class Contact {
     private String phonenumber;
     @ColumnInfo(name = "sex")
     private int sex;
-    @ColumnInfo(name = "callLog")
-    private List<CallLog> callLogs;
-    public Contact(@NonNull String name,String phonenumber,int sex,List<CallLog> callLogs) {
+//    @ColumnInfo(name = "callLog")
+//    private List<CallLog> callLogs;
+    public Contact(@NonNull String name,String phonenumber,int sex) {
         this.name = name;
         this.phonenumber = phonenumber;
         this.sex=sex;
-        this.callLogs=callLogs;
+//        this.callLogs=callLogs;
     }
     public String getName(){
         return this.name;
@@ -31,9 +31,9 @@ public class Contact {
     public String getPhonenumber(){
         return this.phonenumber;
     }
-    public List<CallLog> getCallLogs() {
-        return callLogs;
-    }
+//    public List<CallLog> getCallLogs() {
+//        return callLogs;
+//    }
     public int getSex() {
         return sex;
     }

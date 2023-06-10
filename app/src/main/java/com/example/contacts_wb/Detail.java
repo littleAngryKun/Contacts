@@ -21,6 +21,10 @@ public class Detail extends AppCompatActivity {
     FloatingActionButton myfloat;
     NewContact Contacts;
     ContactViewModel contactViewModel;
+    String name;
+    String PhoneNumber;
+    Integer sex;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +33,18 @@ public class Detail extends AppCompatActivity {
         contactViewModel =new ViewModelProvider(this).get(ContactViewModel.class);
         TextView Name_textview = findViewById(R.id.profile_name);
 
-        String name = getIntent().getStringExtra("name");
+        name = getIntent().getStringExtra("name");
         Name_textview.setText(name);
         TextView Phone_textview = findViewById(R.id.profile_phone_number);
-        String PhoneNumber =getIntent().getStringExtra("phone");
+        PhoneNumber =getIntent().getStringExtra("phone");
+        sex = getIntent().getIntExtra("sex",0);
+        TextView Sex_textview = findViewById(R.id.profile_sex);
+
+        if(sex == 0)
+            Sex_textview.setText("男");
+        else
+            Sex_textview.setText("女");
+
 
         Phone_textview.setText(PhoneNumber);
         myfloat = findViewById(R.id.edit_people);
@@ -74,10 +86,10 @@ public class Detail extends AppCompatActivity {
 
 
     public void change_activity(View view) {
-        TextView Name_textview = findViewById(R.id.profile_name);
-        TextView Phone_textview= findViewById(R.id.add_phone_number);
         Intent intent = new Intent(this, add_people.class);
-        intent.putExtra("name",Name_textview.getText().toString());
+        intent.putExtra("name",name);
+        intent.putExtra("phone",PhoneNumber);
+        intent.putExtra("sex",sex);
         startActivity(intent);
     }
 

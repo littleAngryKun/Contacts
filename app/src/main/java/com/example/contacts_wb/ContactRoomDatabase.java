@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Database(entities = {Contact.class}, version = 3, exportSchema = false)
+@Database(entities = {Contact.class}, version = 4, exportSchema = false)
 public abstract class ContactRoomDatabase extends RoomDatabase {
     public abstract ContactDao contactDao();
 
@@ -45,24 +45,9 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
                 "121"
         };
         int [] sex={0,0,0,1,1};
-        List<CallLog> callLog1 = new ArrayList<>(Arrays.asList(
-                new CallLog("2022-01-01", true),
-                new CallLog("2022-01-02", false),
-                new CallLog("2022-01-03", true)
-        ));
-        Contact p1=new Contact("邱汉宸","18168078784",1,callLog1);
-        List<CallLog> callLog2 = new ArrayList<>(Arrays.asList(
-                new CallLog("2022-01-01", true),
-                new CallLog("2022-01-02", false),
-                new CallLog("2022-01-03", true)
-        ));
-        Contact p2=new Contact("ljk","78784",1,callLog2);
-        List<CallLog> callLog3 = new ArrayList<>(Arrays.asList(
-                new CallLog("2022-01-01", true),
-                new CallLog("2022-01-02", false),
-                new CallLog("2022-01-03", true)
-        ));
-        Contact p3=new Contact("yxt","178578784",1,callLog3);
+        Contact p1=new Contact("邱汉宸","18168078784",1);
+        Contact p2=new Contact("ljk","78784",1);
+        Contact p3=new Contact("yxt","178578784",1);
         PopulateDbAsync(ContactRoomDatabase db) {
             mDao = db.contactDao();
         }
