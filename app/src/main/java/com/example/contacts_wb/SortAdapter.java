@@ -13,12 +13,15 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 /**
- * @author J 适配器
+ * @author
+ * 适配器
+ * 将多个 SortModel 对象组合成一个列表，然后使用 SortAdapter 类对该列表进行适配，以便实现联系人列表的显示和搜索等功能。
  */
 public class SortAdapter extends BaseAdapter implements SectionIndexer {
 	private List<SortModel> list = null;
 	private Context mContext;
 	private boolean isNeedCheck;
+	private String [] contacts;
 
 	public boolean isNeedCheck() {
 		return isNeedCheck;
@@ -31,6 +34,14 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 	public SortAdapter(Context mContext, List<SortModel> list) {
 		this.mContext = mContext;
 		this.list = list;
+	}
+
+	public void setContacts(String [] contacts) {
+		this.contacts = contacts;
+	}
+
+	public String[] getContacts() {
+		return contacts;
 	}
 
 	public void updateListView(List<SortModel> list) {
