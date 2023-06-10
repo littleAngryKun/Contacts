@@ -47,6 +47,20 @@
         app:layout_constraintTop_toBottomOf="@+id/add_profile_name"
         app:layout_constraintVertical_bias="0.0" />
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/add_sex"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="67dp"
+        android:gravity="left"
+        android:text="联系人性别"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_profile_name"
+        app:layout_constraintVertical_bias="0.237" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
