@@ -21,6 +21,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 	private List<SortModel> list = null;
 	private Context mContext;
 	private boolean isNeedCheck;
+	private String [] contacts;
 
 	public boolean isNeedCheck() {
 		return isNeedCheck;
@@ -33,6 +34,14 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 	public SortAdapter(Context mContext, List<SortModel> list) {
 		this.mContext = mContext;
 		this.list = list;
+	}
+
+	public void setContacts(String [] contacts) {
+		this.contacts = contacts;
+	}
+
+	public String[] getContacts() {
+		return contacts;
 	}
 
 	public void updateListView(List<SortModel> list) {

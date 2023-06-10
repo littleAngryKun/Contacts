@@ -31,4 +31,22 @@ public class ContactRepository {
             return null;
         }
     }
+
+
+
+    public void DeleteById (String name) {
+        new deleteAsyncTask(contactDao).execute(name);
+    }
+    //插入操作需要异步
+    private static class deleteAsyncTask extends AsyncTask<String, Void, Void> {
+        private ContactDao mAsyncTaskDao;
+        deleteAsyncTask(ContactDao dao) {
+            mAsyncTaskDao = dao;
+        }
+        @Override
+        protected Void doInBackground(final String... params) {
+            mAsyncTaskDao.DeleteById(params[0]);
+            return null;
+        }
+    }
 }

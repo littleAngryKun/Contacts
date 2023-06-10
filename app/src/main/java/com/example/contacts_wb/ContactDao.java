@@ -18,4 +18,8 @@ public interface ContactDao {
     void insert(Contact contact);
     @Query("DELETE FROM contact_table")
     void deleteAll();
+    @Query("SELECT * from contact_table LIMIT 1")
+    Contact[] getAnyContact();
+    @Query("DELETE FROM contact_table WHERE name = :name")
+    void DeleteById(String name);
 }

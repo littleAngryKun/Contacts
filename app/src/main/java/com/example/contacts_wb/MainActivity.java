@@ -40,6 +40,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 /**
  *
@@ -49,16 +50,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
     private SideBar sideBar; // 右边的引导
     private TextView dialog;
     private SortAdapter adapter; // 排序的适配器
-
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;//RecyclerView的适配器
-
     private CharacterParser characterParser;
     private List<SortModel> SourceDateList; // 数据
-    List<Contact> contact;
-
+    private List<Contact> contact;
     private PinyinComparator pinyinComparator;
     private LinearLayout xuanfuLayout; // 顶部悬浮的layout
+    private ContactDao contactDao;
+    private ContactRoomDatabase contactRoomDatabase;
     private TextView xuanfaText, QunFa, set_people; // 悬浮的文字， 和右上角的群发，增加和删除按钮
     private int lastFirstVisibleItem = -1;
     private boolean isNeedChecked; // 是否需要出现选择的按钮
@@ -69,21 +69,22 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        contact = new ArrayList<>();
         mContactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
+        contactRoomDatabase = Room.databaseBuilder(getApplicationContext(), ContactRoomDatabase.class, "contact_database").build();
+        contactDao = contactRoomDatabase.contactDao();
         mContactViewModel.getAllContacts().observe(this, new Observer<List<Contact>>() {
             @Override
             public void onChanged(@Nullable final List<Contact> contacts) {
-                //控制台打印：说明ContactArray拿到了数据库中的数据
-                //String [] cons = {"邱汉宸", "叶信托", "刘宇恒","李俊凯"};
-                ContactArray = new String[contacts.size()];
-                for (int i = 0; i < contacts.size(); i++) {
-                    ContactArray[i] = contacts.get(i).getName();
-                    System.out.println(ContactArray[i]);
-                }
+//                ContactArray = new String[contacts.size()];
+//                for (int i = 0; i < contacts.size(); i++) {
+//                    ContactArray[i] = contacts.get(i).getName();
+//                }
+                contact=contacts;
+                System.out.println("contact对象在onChanged()函数中的长度："+contact.size());
+                initViews();
             }
         });
-        initViews();
     }
 
     private void initViews() {
@@ -111,13 +112,25 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
                 if (position != -1) {
                     ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
                 }
-
             }
         });
-        //将联系人列表中的数据填充到 SortModel 对象中，并根据首字母进行排序
-        SourceDateList = filledData(getResources().getStringArray(R.array.date));// 填充数据
-//            SourceDateList= filledData (ContactArray);
 
+//        ContactArray = new String[contact.size()];
+//        for (int i = 0; i < contact.size(); i++) {
+//            ContactArray[i] = contact.get(i).getName();
+//            System.out.println(ContactArray[i]);
+//        }
+        ContactArray = new String[contact.size()];
+        for (int i = 0; i < contact.size(); i++) {
+            ContactArray[i] = contact.get(i).getName();
+            System.out.println(ContactArray[i]);
+        }
+        if(ContactArray.length==0)
+            System.out.println("contact长度为0");
+        //将联系人列表中的数据填充到 SortModel 对象中，并根据首字母进行排序
+//        SourceDateList = filledData(getResources().getStringArray(R.array.date));// 填充数据
+//        SourceDateList= filledData (Final_data.getContacts());
+        SourceDateList= filledData(ContactArray);
         Collections.sort(SourceDateList, pinyinComparator);
         recyclerView = (RecyclerView) findViewById(R.id.country_lvcountry);
         recyclerViewAdapter = new RecyclerViewAdapter(this,SourceDateList,this::onItemClick);
@@ -257,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
         }
         return mSortList;
     }
-
     /**
      * 过滤数据
      * @param filterStr
@@ -282,7 +294,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
         Collections.sort(filterDateList, pinyinComparator);
         adapter.updateListView(filterDateList);
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -322,7 +333,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
         }
 
     }
-
     @Override
     public void onItemClick(View view, int position) {
         if (!isNeedChecked) {
@@ -339,9 +349,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
             recyclerViewAdapter.notifyItemChanged(position);
         }
     }
-
     public void add_activity(View view) {
         Intent intent = new Intent(this, add_people.class);
         startActivity(intent);
+
     }
 }

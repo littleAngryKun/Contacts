@@ -1,6 +1,7 @@
 package com.example.contacts_wb;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,12 +19,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class Detail extends AppCompatActivity {
     FloatingActionButton myfloat;
     NewContact Contacts;
+    ContactViewModel contactViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
+        contactViewModel =new ViewModelProvider(this).get(ContactViewModel.class);
         TextView Name_textview = findViewById(R.id.profile_name);
 
         String message = getIntent().getStringExtra("name");
@@ -77,9 +79,12 @@ public class Detail extends AppCompatActivity {
         TextView Name_textview = findViewById(R.id.profile_name);
         String name = Name_textview.getText().toString();
         //删除数据库
-        Contacts.Delete(name);
+        contactViewModel.DeleteById(name);
+
         Toast.makeText(getApplicationContext(),
                 "删除成功",
                 Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

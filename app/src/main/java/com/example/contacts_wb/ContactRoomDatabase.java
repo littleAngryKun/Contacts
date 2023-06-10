@@ -28,17 +28,18 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
     }
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final ContactDao mDao;
-        String [] cons = {"邱汉宸", "叶信托", "刘宇恒","李俊凯"};
+        String [] cons = {"邱汉宸", "叶信托", "刘宇恒","李俊凯","李俊凯2"};
         PopulateDbAsync(ContactRoomDatabase db) {
             mDao = db.contactDao();
         }
         @Override
         protected Void doInBackground(final Void... params) {
-            //清空所有数据
-            mDao.deleteAll();
-            for( int i = 0; i <= cons.length - 1; i++) {
-                Contact contact = new Contact(cons[i]);
-                mDao.insert(contact);
+
+            if (mDao.getAnyContact().length < 1) {
+                for (int i = 0; i <= cons.length - 1; i++) {
+                    Contact contact = new Contact(cons[i]);
+                    mDao.insert(contact);
+                }
             }
             return null;
         }
