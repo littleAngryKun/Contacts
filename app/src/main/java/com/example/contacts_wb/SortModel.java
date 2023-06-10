@@ -1,6 +1,7 @@
 package com.example.contacts_wb;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author
@@ -15,6 +16,16 @@ public class SortModel implements Serializable {
 	private boolean isChecked;
 	private String iconUrl;
 	private int sex; // 0 男 1 女
+	private List<CallLog> callLogs;
+
+	public List<CallLog> getCallLogs() {
+		return callLogs;
+	}
+
+	public void setCallLogs(List<CallLog> callLogs) {
+		this.callLogs = callLogs;
+	}
+
 	public SortModel(String name){
 		super();
 		this.name=name;
@@ -30,13 +41,14 @@ public class SortModel implements Serializable {
 	}
 
 	public SortModel(String name, String sortLetters, boolean isChecked,
-					 String iconUrl, int sex) {
+					 String iconUrl, int sex,List<CallLog>callLogs) {
 		super();
 		this.name = name;
 		this.sortLetters = sortLetters;
 		this.isChecked = isChecked;
 		this.iconUrl = iconUrl;
 		this.sex = sex;
+		this.callLogs=callLogs;
 	}
 
 	public SortModel() {
