@@ -70,18 +70,29 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         contact = new ArrayList<>();
+        //ViewModelProvider 是 Android Jetpack 架构中的一个类，用于管理 ViewModel 的生命周期
         mContactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
-        contactRoomDatabase = Room.databaseBuilder(getApplicationContext(), ContactRoomDatabase.class, "contact_database").build();
-        contactDao = contactRoomDatabase.contactDao();
+        contactRoomDatabase = Room.databaseBuilder(getApplicationContext(), ContactRoomDatabase.class, "contact_database").build();//创建一个数据库实例
+        contactDao = contactRoomDatabase.contactDao();//获取一个 ContactDao 的实例
+        /**
+         * 调用 observe() 方法来注册一个数据观察者。
+         * getAllContacts() 方法返回的是一个 LiveData<List<Contact>> 对象，
+         * 这个对象支持数据观察者模式，当数据库中的联系人信息发生变化时，可以自动将变化的数据发送给已经注册的观察者。
+         */
         mContactViewModel.getAllContacts().observe(this, new Observer<List<Contact>>() {
+            /**
+             * 当数据库中的联系人信息发生变化时，LiveData 会自动调用这个 Observer 对象的 onChanged() 方法，
+             * 将变化的数据发送给已经注册的观察者。
+             * @param contacts
+             */
             @Override
             public void onChanged(@Nullable final List<Contact> contacts) {
 //                ContactArray = new String[contacts.size()];
 //                for (int i = 0; i < contacts.size(); i++) {
 //                    ContactArray[i] = contacts.get(i).getName();
 //                }
-                contact=contacts;
-                initViews();
+                contact=contacts;//将查询到的联系人信息保存到 contact 变量中
+                initViews();//调用 initViews() 方法来初始化应用程序的界面。
             }
         });
     }
