@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
             Intent intent = new Intent(this, Detail.class);
             intent.putExtra("name", ((SortModel) recyclerViewAdapter.getItem(position)).getName());
             intent.putExtra("phone", ((SortModel) recyclerViewAdapter.getItem(position)).getPhoneNumber());
-
+            intent.putExtra("sex", ((SortModel) recyclerViewAdapter.getItem(position)).getSex());
             startActivity(intent);
         } else {
             SourceDateList.get(position).setChecked(
