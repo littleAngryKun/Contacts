@@ -11,8 +11,6 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.List;
-
 public class add_people extends AppCompatActivity {
     TextInputEditText add_name;
     FloatingActionButton add_button;
@@ -48,9 +46,7 @@ public class add_people extends AppCompatActivity {
             public void onClick(View view) {
                 String Name = add_name.getText().toString();
                 String Phone =add_phone.getText().toString();
-                String Sex = add_sex.getText().toString();
-                List<CallLog>callLogs=null;
-                Contact contact =new Contact(Name,Phone,sex,callLogs);
+                Contact contact =new Contact(Name,Phone);
                 contactViewModel.insert(contact);
                 Intent intent = new Intent(add_people.this,MainActivity.class);
                 startActivity(intent);

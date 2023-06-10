@@ -6,12 +6,7 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.room.*;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-@Database(entities = {Contact.class}, version = 3, exportSchema = false)
+@Database(entities = {Contact.class}, version = 2, exportSchema = false)
 public abstract class ContactRoomDatabase extends RoomDatabase {
     public abstract ContactDao contactDao();
 
@@ -44,25 +39,7 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
                 "119",
                 "121"
         };
-        int [] sex={0,0,0,1,1};
-        List<CallLog> callLog1 = new ArrayList<>(Arrays.asList(
-                new CallLog("2022-01-01", true),
-                new CallLog("2022-01-02", false),
-                new CallLog("2022-01-03", true)
-        ));
-        Contact p1=new Contact("邱汉宸","18168078784",1,callLog1);
-        List<CallLog> callLog2 = new ArrayList<>(Arrays.asList(
-                new CallLog("2022-01-01", true),
-                new CallLog("2022-01-02", false),
-                new CallLog("2022-01-03", true)
-        ));
-        Contact p2=new Contact("ljk","78784",1,callLog2);
-        List<CallLog> callLog3 = new ArrayList<>(Arrays.asList(
-                new CallLog("2022-01-01", true),
-                new CallLog("2022-01-02", false),
-                new CallLog("2022-01-03", true)
-        ));
-        Contact p3=new Contact("yxt","178578784",1,callLog3);
+
         PopulateDbAsync(ContactRoomDatabase db) {
             mDao = db.contactDao();
         }
@@ -70,9 +47,12 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(final Void... params) {
             mDao.deleteAll();
-                mDao.insert(p1);
-                mDao.insert(p2);
-                mDao.insert(p3);
+
+                for (int i = 0; i <= name.length - 1; i++) {
+                    Contact contact = new Contact(name[i],phonenumber[i]);
+                    mDao.insert(contact);
+                }
+
             return null;
         }
             // Start the app with a clean database every time.
