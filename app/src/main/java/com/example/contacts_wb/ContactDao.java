@@ -8,6 +8,13 @@ import androidx.room.Query;
 
 import java.util.List;
 
+/**
+ * 数据访问对象（DAO）接口 ContactDao，它用于访问和操作 contact_table 表格中的数据。
+ * 虽然 ContactDao 是一个接口，但是这些方法的具体实现是由 Room 数据库框架自动生成的，不需要我们来手动实现。
+ * 我们只需要在应用程序中定义这些方法，然后在需要使用的地方调用这些方法即可。
+ * Room 数据库框架会根据这些方法中的注解生成相应的 SQL 语句，并执行相应的数据库操作。
+ * 因此，我们可以将精力集中在应用程序的业务逻辑上，而不需要编写大量的数据库操作代码。
+ */
 @Dao
 public interface ContactDao {
     @Query("SELECT * from contact_table ORDER BY name ASC")
