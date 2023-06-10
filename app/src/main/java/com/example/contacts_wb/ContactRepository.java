@@ -16,6 +16,9 @@ public class ContactRepository {
     LiveData<List<Contact>> getmAllContacts() {
         return mAllContacts;
     }
+    LiveData<String> getPhoneNumber(String name){
+        return contactDao.getPhoneNumberByName(name);
+    }
     public void insert (Contact contact) {
         new insertAsyncTask(contactDao).execute(contact);
     }

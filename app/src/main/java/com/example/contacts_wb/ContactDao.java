@@ -22,4 +22,6 @@ public interface ContactDao {
     Contact[] getAnyContact();
     @Query("DELETE FROM contact_table WHERE name = :name")
     void DeleteById(String name);
+    @Query("SELECT phonenumber FROM contact_table WHERE name = :name")
+    LiveData<String> getPhoneNumberByName(String name);
 }

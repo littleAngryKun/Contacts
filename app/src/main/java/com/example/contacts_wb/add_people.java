@@ -14,7 +14,7 @@ import com.google.android.material.textfield.TextInputEditText;
 public class add_people extends AppCompatActivity {
     TextInputEditText add_name;
     FloatingActionButton add_button;
-//    TextInputEditText add_phone;
+    TextInputEditText add_phone;
     ContactViewModel contactViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +26,11 @@ public class add_people extends AppCompatActivity {
 //        contactViewModel.(contact);
         add_button=findViewById(R.id.floatingActionButton);
         add_name = findViewById(R.id.add_profile_name);
-//        add_phone = findViewById(R.id.add_profile_phone_number);
+        add_phone = findViewById(R.id.add_phone_number);
 
         if (message != null) {
             add_name.setText(message);
-//            add_phone.setText(提取对于名字message的号码);
+//            add_phone.setText(phone);
         }
 
         add_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -45,7 +45,8 @@ public class add_people extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String Name = add_name.getText().toString();
-                Contact contact =new Contact(Name);
+                String Phone =add_phone.getText().toString();
+                Contact contact =new Contact(Name,Phone);
                 contactViewModel.insert(contact);
                 Intent intent = new Intent(add_people.this,MainActivity.class);
                 startActivity(intent);

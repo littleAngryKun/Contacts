@@ -11,9 +11,15 @@ public class Contact {
     @NonNull
     @ColumnInfo(name = "name")
     private String name;
-    public Contact(@NonNull String name) {
-        this.name = name;}
+    @ColumnInfo(name = "phonenumber")
+    private String phonenumber;
+    public Contact(@NonNull String name,String phonenumber) {
+        this.name = name;
+        this.phonenumber = phonenumber;}
     public String getName(){
         return this.name;
+    }
+    public String getPhonenumber(){
+        return this.phonenumber;
     }
 }

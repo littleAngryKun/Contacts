@@ -32,6 +32,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -57,14 +58,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
     private List<Contact> contact;
     private PinyinComparator pinyinComparator;
     private LinearLayout xuanfuLayout; // 顶部悬浮的layout
-    private ContactDao contactDao;
     private ContactRoomDatabase contactRoomDatabase;
     private TextView xuanfaText, QunFa, set_people; // 悬浮的文字， 和右上角的群发，增加和删除按钮
     private int lastFirstVisibleItem = -1;
     private boolean isNeedChecked; // 是否需要出现选择的按钮
 //    private WordViewModel mWordViewModel;
     private ContactViewModel mContactViewModel;
-    public String[] ContactArray;
+    private ContactDao contactDao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
 //                    ContactArray[i] = contacts.get(i).getName();
 //                }
                 contact=contacts;
-                System.out.println("contact对象在onChanged()函数中的长度："+contact.size());
                 initViews();
             }
         });
@@ -120,17 +119,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
 //            ContactArray[i] = contact.get(i).getName();
 //            System.out.println(ContactArray[i]);
 //        }
-        ContactArray = new String[contact.size()];
-        for (int i = 0; i < contact.size(); i++) {
-            ContactArray[i] = contact.get(i).getName();
-            System.out.println(ContactArray[i]);
-        }
-        if(ContactArray.length==0)
-            System.out.println("contact长度为0");
+//        ContactArray = new String[contact.size()];
+//        for (int i = 0; i < contact.size(); i++) {
+//            ContactArray[i] = contact.get(i).getName();
+//            System.out.println(ContactArray[i]);
+//        }
+//        if(ContactArray.length==0)
+//            System.out.println("contact长度为0");
         //将联系人列表中的数据填充到 SortModel 对象中，并根据首字母进行排序
 //        SourceDateList = filledData(getResources().getStringArray(R.array.date));// 填充数据
 //        SourceDateList= filledData (Final_data.getContacts());
-        SourceDateList= filledData(ContactArray);
+
+        SourceDateList= filledData(contact);
         Collections.sort(SourceDateList, pinyinComparator);
         recyclerView = (RecyclerView) findViewById(R.id.country_lvcountry);
         recyclerViewAdapter = new RecyclerViewAdapter(this,SourceDateList,this::onItemClick);
@@ -178,86 +178,33 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
                 lastFirstVisibleItem = firstVisibleItem;
             }
         });
-//        recyclerViewAdapter.setOnItemClickListener(new recyclerViewAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                if (!isNeedChecked) {
-//                    Toast.makeText(getApplicationContext(),
-//                            ((SortModel) adapter.getItem(position)).getName(),
-//                            Toast.LENGTH_SHORT).show();
-//                    //todo 在这里要修改为跳转到详情界面
-//                } else {
-//                    SourceDateList.get(position).setChecked(
-//                            !SourceDateList.get(position).isChecked());
-//                    adapter.notifyItemChanged(position);
-//                }
-//            }
-//        });
-        /**
-         * 设置滚动监听， 实时跟新悬浮的字母的值
-         */
-//        sortListView.setOnScrollListener(new OnScrollListener() {
-//
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem,
-//                                 int visibleItemCount, int totalItemCount) {
-//                int section = adapter.getSectionForPosition(firstVisibleItem);
-//                int nextSecPosition = adapter
-//                        .getPositionForSection(section + 1);
-//                if (firstVisibleItem != lastFirstVisibleItem) {
-//                    MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout
-//                            .getLayoutParams();
-//                    params.topMargin = 0;
-//                    xuanfuLayout.setLayoutParams(params);
-//                    xuanfaText.setText(String.valueOf((char) section));
-//                }
-//                if (nextSecPosition == firstVisibleItem + 1) {
-//                    View childView = view.getChildAt(0);
-//                    if (childView != null) {
-//                        int titleHeight = xuanfuLayout.getHeight();
-//                        int bottom = childView.getBottom();
-//                        MarginLayoutParams params = (MarginLayoutParams) xuanfuLayout
-//                                .getLayoutParams();
-//                        if (bottom < titleHeight) {
-//                            float pushedDistance = bottom - titleHeight;
-//                            params.topMargin = (int) pushedDistance;
-//                            xuanfuLayout.setLayoutParams(params);
-//                        } else {
-//                            if (params.topMargin != 0) {
-//                                params.topMargin = 0;
-//                                xuanfuLayout.setLayoutParams(params);
-//                            }
-//                        }
-//                    }
-//                }
-//                lastFirstVisibleItem = firstVisibleItem;
-//            }
-//        });
     }
-    /**
-     * 填充数据
-     * @param date
-     * @return
-     */
-    private List<SortModel> filledData(String[] date) {
+
+    private List<SortModel> filledData(List<Contact> contactLiveData) {
+
+        String [] ContactArray = new String[contactLiveData.size()];
+        for (int i = 0; i < contactLiveData.size(); i++) {
+            ContactArray[i] = contactLiveData.get(i).getName();
+        }
+        String [] PhoneNumber = new String[contactLiveData.size()];
+        for (int i=0;i<contactLiveData.size();i++){
+            PhoneNumber[i] =contactLiveData.get(i).getPhonenumber();
+        }
+
         List<SortModel> mSortList = new ArrayList<SortModel>();
+
         //String[]data=
         //遍历输入的字符串数组，并为每个字符串创建一个SortModel对象。
-        for (int i = 0; i < date.length; i++) {
+        for (int i = 0; i < ContactArray.length; i++) {
             SortModel sortModel = new SortModel();
-            sortModel.setName(date[i]);
+            sortModel.setName(ContactArray[i]);
+            sortModel.setPhoneNumber(PhoneNumber[i]);
             sortModel.setSex(i % 2);//先随便设置性别
             /**
              * 使用characterParser对象的getSelling()方法获取每个字符串的拼音，并从拼音中提取第一个字符。
              * 然后，它将字符转换为大写字母，并将结果存储在sortString字符串变量中。
              */
-            String pinyin = characterParser.getSelling(date[i]);
+            String pinyin = characterParser.getSelling(ContactArray[i]);
             String sortString = pinyin.substring(0, 1).toUpperCase();
             //如果是字母，将首字母存储在SortModel对象的sortLetters属性中，并将该字母转换为大写字母。
             // 否则，将#存储在sortLetters属性中，表示该字符串不以字母开头。
@@ -342,6 +289,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
             //todo 在这里添加代码，功能为跳转到详情界面
             Intent intent = new Intent(this, Detail.class);
             intent.putExtra("name", ((SortModel) recyclerViewAdapter.getItem(position)).getName());
+            intent.putExtra("phone", ((SortModel) recyclerViewAdapter.getItem(position)).getPhoneNumber());
+
             startActivity(intent);
         } else {
             SourceDateList.get(position).setChecked(

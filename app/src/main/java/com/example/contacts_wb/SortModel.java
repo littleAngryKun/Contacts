@@ -11,6 +11,7 @@ public class SortModel implements Serializable {
 
 	private String name;
 	private String sortLetters;
+	private String PhoneNumber;
 	private boolean isChecked;
 	private String iconUrl;
 	private int sex; // 0 男 1 女
@@ -19,8 +20,17 @@ public class SortModel implements Serializable {
 		this.name=name;
 		this.sortLetters="#";
 	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		PhoneNumber = phoneNumber;
+	}
+
+	public String getPhoneNumber() {
+		return PhoneNumber;
+	}
+
 	public SortModel(String name, String sortLetters, boolean isChecked,
-			String iconUrl, int sex) {
+					 String iconUrl, int sex) {
 		super();
 		this.name = name;
 		this.sortLetters = sortLetters;

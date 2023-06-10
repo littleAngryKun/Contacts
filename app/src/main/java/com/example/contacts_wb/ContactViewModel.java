@@ -29,4 +29,7 @@ public class ContactViewModel extends AndroidViewModel {
     public void DeleteById(String name){
         mRepository.DeleteById(name);
     }
+    public LiveData<String> getPhoneNumber(String name){
+        return mRepository.getPhoneNumber(name);
+    }
 }
