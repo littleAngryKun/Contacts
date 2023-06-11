@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.contacts_wb.database.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,8 +31,6 @@ public class add_people extends AppCompatActivity {
         name = getIntent().getStringExtra("name");
         phoneNumber = getIntent().getStringExtra("phone");
         sex = getIntent().getIntExtra("sex", 0);
-
-        contactViewModel.DeleteById(name);
 //        contactViewModel.(contact);
         add_button = findViewById(R.id.floatingActionButton);
         add_name = findViewById(R.id.add_profile_name);
@@ -68,6 +67,7 @@ public class add_people extends AppCompatActivity {
 
 
                 Contact contact = new Contact(Name, Phone, sex);
+                contactViewModel.DeleteById(name);
                 contactViewModel.insert(contact);
                 Intent intent = new Intent(add_people.this, MainActivity.class);
                 startActivity(intent);
