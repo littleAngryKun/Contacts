@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    style="@style/TopBg">
 
     <RelativeLayout
         style="@style/TopBg"
@@ -18,16 +19,16 @@
             android:text="贵宾"
             android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/qunfa"
-            style="@style/TextColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:text="群发"
-            android:textSize="20sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/qunfa"-->
+<!--            style="@style/TextColor"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:text="群发"-->
+<!--            android:textSize="20sp" />-->
 
         <TextView
             android:id="@+id/set_people"
@@ -35,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="75dp"
+            android:layout_marginRight="17dp"
             android:text="..."
             android:textSize="20sp" />
 
