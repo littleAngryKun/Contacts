@@ -1,10 +1,14 @@
-package com.example.contacts_wb;
+package com.example.contacts_wb.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
+
+import com.example.contacts_wb.database.Contact;
 
 import java.util.List;
 
@@ -31,4 +35,26 @@ public interface ContactDao {
     void DeleteById(String name);
     @Query("SELECT phonenumber FROM contact_table WHERE name = :name")
     LiveData<String> getPhoneNumberByName(String name);
+
+    // 获取所有通话记录，并按通话时间倒序排序
+    @Query("SELECT * FROM call_log_table ORDER BY call_time DESC")
+    LiveData<List<CallLog>> getAllCallLogs();
+    // 根据电话号码查询与该号码相关的所有通话记录，并按通话时间倒序排序
+    @Query("SELECT * FROM call_log_table WHERE caller_number = :phoneNumber ORDER BY call_time DESC")
+    LiveData<List<CallLog>> getCallLogsByPhoneNumber(String phoneNumber);
+    // 根据联系人名字查询与该联系人相关的所有通话记录，并按通话时间倒序排序
+    @Query("SELECT * FROM call_log_table WHERE caller_name = :contactName ORDER BY call_time DESC")
+    LiveData<List<CallLog>> getCallLogsByContactName(String contactName);
+    // 向通话记录表格中插入一条新的通话记录
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insert(CallLog callLog);
+    // 更新一条通话记录的信息
+    @Update
+    void update(CallLog callLog);
+    // 删除一条通话记录
+    @Delete
+    void delete(CallLog callLog);
+    // 删除整个通话记录表格中的所有记录
+    @Query("DELETE FROM call_log_table")
+    void deleteAllCallLog();
 }

@@ -4,7 +4,13 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.contacts_wb.database.CallLog;
+import com.example.contacts_wb.database.Contact;
+import com.example.contacts_wb.database.ContactRepository;
+
 import java.util.List;
+import com.example.contacts_wb.database.ContactRepository;
 
 /**
  * 继承了 AndroidViewModel 的 ContactViewModel 类,用于管理 Contact 数据实体类的数据和操作。
@@ -24,12 +30,18 @@ public class ContactViewModel extends AndroidViewModel {
 //    {
 //        words[i] = wordList.get(i).getWord(); // 将 List<Word> 对象的每个元素的 word 属性转换为字符串，并保存到字符串数组中
 //    }
+    private LiveData<List<CallLog>> mAllCallLogs;
     public ContactViewModel (Application application) {
         super(application);
         mRepository = new ContactRepository(application);//创建一个 ContactRepository 的实例
         mAllContacts = mRepository.getmAllContacts();//获取数据库中所有的 Contact 数据
-
+        mAllCallLogs = mRepository.getmAllCallLogs();//获取数据库所有的CallLog数据
     }
+
+    /**
+     * 对联系人的操作
+     * @return
+     */
     LiveData<List<Contact>> getAllContacts() {
         return mAllContacts;
     }
@@ -40,5 +52,21 @@ public class ContactViewModel extends AndroidViewModel {
     }
     public LiveData<String> getPhoneNumber(String name){
         return mRepository.getPhoneNumber(name);
+    }
+
+    /**
+     * 对通话记录的操作
+     * @return
+     */
+    LiveData<List<CallLog>> getmAllCallLogs(){ return mAllCallLogs;}
+    //
+    public void insert(CallLog callLog){ mRepository.insert(callLog);}
+    //通过一个用户的电话查询和他相关的通话记录
+    public LiveData<List<CallLog>> getCallLogsByPhoneNumber(String number){
+        return mRepository.getCallLogsByPhoneNumber(number);
+    }
+    //通过一个用户的用户名查询和他相关的通话记录
+    public LiveData<List<CallLog>> getCallLogsByContactName(String Name){
+        return mRepository.getCallLogsByContactName(Name);
     }
 }

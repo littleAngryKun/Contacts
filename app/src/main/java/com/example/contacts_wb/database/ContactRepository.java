@@ -1,8 +1,10 @@
-package com.example.contacts_wb;
+package com.example.contacts_wb.database;
 
 import android.app.Application;
 import android.os.AsyncTask;
+
 import androidx.lifecycle.LiveData;
+
 import java.util.List;
 
 /**
@@ -12,16 +14,28 @@ import java.util.List;
 public class ContactRepository {
     private ContactDao contactDao;//一个接口类型的对象，用于访问数据库中的数据。
     private LiveData<List<Contact>> mAllContacts;//一个 LiveData 对象，用于存储数据库中的所有联系人信息。
-    ContactRepository(Application application) {
+    private LiveData<List<CallLog>> mAllCallLogs;
+    public ContactRepository(Application application) {
         ContactRoomDatabase db = ContactRoomDatabase.getDatabase(application); //获取一个 ContactRoomDatabase 数据库实例。
         contactDao = db.contactDao();//获取数据库实例中的 ContactDao 对象，用于访问数据库中的数据。
         mAllContacts = contactDao.getAlphabetizedWords();//从 ContactDao 中获取所有联系人信息，并将其存储在 mAllContacts 中。
+        mAllCallLogs = contactDao.getAllCallLogs();
+
     }
-    LiveData<List<Contact>> getmAllContacts() {
+    public LiveData<List<Contact>> getmAllContacts() {
         return mAllContacts;//返回 mAllContacts 成员变量。
     }
-    LiveData<String> getPhoneNumber(String name){
+    public LiveData<String> getPhoneNumber(String name){
         return contactDao.getPhoneNumberByName(name);//查询指定姓名对应的电话号码，并返回一个 LiveData 对象。
+    }
+    public LiveData<List<CallLog>> getmAllCallLogs(){return  mAllCallLogs;}
+    //通过一个用户的电话查询和他相关的通话记录
+    public LiveData<List<CallLog>> getCallLogsByPhoneNumber(String number){
+        return contactDao.getCallLogsByPhoneNumber(number);
+    }
+    //通过一个用户的用户名查询和他相关的通话记录
+    public LiveData<List<CallLog>> getCallLogsByContactName(String Name){
+        return contactDao.getCallLogsByContactName(Name);
     }
 
     /**
@@ -61,4 +75,19 @@ public class ContactRepository {
             return null;
         }
     }
+
+    public void insert (CallLog callLog){
+        new insertAsyncTask_calllog(contactDao).execute(callLog);
+    }
+    //插入通话记录操作需要异步
+    private static class  insertAsyncTask_calllog extends AsyncTask<CallLog,Void,Void>{
+        private ContactDao mAsyncTaskDao;
+        insertAsyncTask_calllog(ContactDao contactDao){mAsyncTaskDao = contactDao;}
+        @Override
+        protected Void doInBackground(CallLog... callLogs) {
+            mAsyncTaskDao.insert(callLogs[0]);
+            return null;
+        }
+    }
+    //todo 根据通话记录的id删除这条通话记录
 }

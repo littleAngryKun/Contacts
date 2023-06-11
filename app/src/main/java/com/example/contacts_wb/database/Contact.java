@@ -1,4 +1,4 @@
-package com.example.contacts_wb;
+package com.example.contacts_wb.database;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

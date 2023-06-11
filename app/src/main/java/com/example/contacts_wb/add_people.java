@@ -6,12 +6,10 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
+import com.example.contacts_wb.database.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.List;
 
 public class add_people extends AppCompatActivity {
     TextInputEditText add_name;

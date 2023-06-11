@@ -34,6 +34,7 @@ public class Detail extends AppCompatActivity {
         TextView Name_textview = findViewById(R.id.profile_name);
 
         name = getIntent().getStringExtra("name");
+
         Name_textview.setText(name);
         TextView Phone_textview = findViewById(R.id.profile_phone_number);
         PhoneNumber =getIntent().getStringExtra("phone");
