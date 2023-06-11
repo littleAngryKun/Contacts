@@ -2,6 +2,8 @@ package com.example.contacts_wb;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import com.example.contacts_wb.*;
+import com.example.contacts_wb.database.CallLog;
 
 import android.os.Bundle;
 
@@ -11,6 +13,8 @@ public class phone extends AppCompatActivity {
     String call_phone;
     long call_time;
     long call_end;
+    int call_duration;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +24,13 @@ public class phone extends AppCompatActivity {
         call_name = getIntent().getStringExtra("call_name");
         call_phone = getIntent().getStringExtra("call_phone");
         call_time=System.currentTimeMillis();
+
+
+
+        call_end=System.currentTimeMillis();
+        call_duration=(int)(call_end-call_time);
+        CallLog callLog = new CallLog(call_name,call_phone,call_duration,call_time,true);
+        mContactViewModel.insert(callLog);
     }
 
 
