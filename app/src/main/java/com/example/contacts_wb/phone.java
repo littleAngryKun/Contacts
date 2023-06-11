@@ -5,7 +5,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.contacts_wb.*;
 import com.example.contacts_wb.database.CallLog;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 public class phone extends AppCompatActivity {
     ContactViewModel mContactViewModel;
@@ -24,14 +27,13 @@ public class phone extends AppCompatActivity {
         call_name = getIntent().getStringExtra("call_name");
         call_phone = getIntent().getStringExtra("call_phone");
         call_time=System.currentTimeMillis();
-
-
-
+    }
+    public void phone_down(View view) {
         call_end=System.currentTimeMillis();
-        call_duration=(int)(call_end-call_time);
+        call_duration=(int)(call_end-call_time)/1000;
         CallLog callLog = new CallLog(call_name,call_phone,call_duration,call_time,true);
         mContactViewModel.insert(callLog);
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
     }
-
-
 }

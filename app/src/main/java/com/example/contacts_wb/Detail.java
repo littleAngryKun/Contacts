@@ -124,18 +124,18 @@ public class Detail extends AppCompatActivity {
     }
 
     public void call(View view) {
-        //电话页面
-        TextView name = findViewById(R.id.profile_name);
-        TextView phone = findViewById(R.id.profile_phone_number);
+            //电话页面
+            TextView name = findViewById(R.id.profile_name);
+            TextView phone = findViewById(R.id.profile_phone_number);
 
-        String call_name = name.getText().toString();
-        String call_phone = phone.getText().toString();
-        Intent intent = new Intent(this, phone.class);
+            String call_name = name.getText().toString();
+            String call_phone = phone.getText().toString();
+            Intent intent = new Intent(this, phone.class);
 
-        intent.putExtra("call_name",call_name);
-        intent.putExtra("call_phone",call_phone);
+            intent.putExtra("call_name",call_name);
+            intent.putExtra("call_phone",call_phone);
 
-        startActivity(intent);
+            startActivity(intent);
     }
 
     public void mail(View view) {
@@ -145,7 +145,7 @@ public class Detail extends AppCompatActivity {
     }
 
 
-    public void change_activity(View view) {
+    public void hcange_activity(View view) {
         Intent intent = new Intent(this, add_people.class);
         intent.putExtra("name",name);
         intent.putExtra("phone",PhoneNumber);
