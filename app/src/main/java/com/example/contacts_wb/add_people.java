@@ -65,7 +65,6 @@ public class add_people extends AppCompatActivity {
                 }
 
 
-
                 Contact contact = new Contact(Name, Phone, sex);
                 contactViewModel.DeleteById(name);
                 contactViewModel.insert(contact);

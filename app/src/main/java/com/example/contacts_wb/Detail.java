@@ -145,7 +145,7 @@ public class Detail extends AppCompatActivity {
     }
 
 
-    public void hcange_activity(View view) {
+    public void change_activity(View view) {
         Intent intent = new Intent(this, add_people.class);
         intent.putExtra("name",name);
         intent.putExtra("phone",PhoneNumber);
