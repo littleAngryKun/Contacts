@@ -4,6 +4,8 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.example.contacts_wb.database.CallLog;
 import com.example.contacts_wb.database.Contact;
@@ -18,6 +20,7 @@ import com.example.contacts_wb.database.ContactRepository;
  */
 public class ContactViewModel extends AndroidViewModel {
     private ContactRepository mRepository;//仓库
+
     /**
      * mAllContacts 成员变量的类型是 LiveData<List<Contact>>，
      * 它支持数据观察者模式，当数据库中的数据发生变化时，可以自动将变化的数据发送给已经注册的观察者。
@@ -31,6 +34,8 @@ public class ContactViewModel extends AndroidViewModel {
 //        words[i] = wordList.get(i).getWord(); // 将 List<Word> 对象的每个元素的 word 属性转换为字符串，并保存到字符串数组中
 //    }
     private LiveData<List<CallLog>> mAllCallLogs;
+    private  LiveData<Contact> mContact ;
+
     public ContactViewModel (Application application) {
         super(application);
         mRepository = new ContactRepository(application);//创建一个 ContactRepository 的实例
@@ -53,6 +58,9 @@ public class ContactViewModel extends AndroidViewModel {
     public LiveData<String> getPhoneNumber(String name){
         return mRepository.getPhoneNumber(name);
     }
+
+    public void setContactByName(String name){mContact = mRepository.getContactByName(name);}
+    public LiveData<Contact> getContactByName (){ return mContact;}
 
     /**
      * 对通话记录的操作

@@ -28,6 +28,7 @@ public class ContactRepository {
     public LiveData<String> getPhoneNumber(String name){
         return contactDao.getPhoneNumberByName(name);//查询指定姓名对应的电话号码，并返回一个 LiveData 对象。
     }
+    public LiveData<Contact> getContactByName(String name){ return contactDao.getContactByName(name);}
     public LiveData<List<CallLog>> getmAllCallLogs(){return  mAllCallLogs;}
     //通过一个用户的电话查询和他相关的通话记录
     public LiveData<List<CallLog>> getCallLogsByPhoneNumber(String number){

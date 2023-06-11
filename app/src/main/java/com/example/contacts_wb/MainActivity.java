@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
     private CharacterParser characterParser;
     private List<SortModel> SourceDateList; // 数据
     private List<Contact> contact;
+
     private PinyinComparator pinyinComparator;
     private LinearLayout xuanfuLayout; // 顶部悬浮的layout
     private ContactRoomDatabase contactRoomDatabase;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
 //                    ContactArray[i] = contacts.get(i).getName();
 //                }
                 contact=contacts;//将查询到的联系人信息保存到 contact 变量中
+
                 initViews();//调用 initViews() 方法来初始化应用程序的界面。
             }
         });
