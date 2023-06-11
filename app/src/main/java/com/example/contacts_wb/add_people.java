@@ -36,7 +36,7 @@ public class add_people extends AppCompatActivity {
         add_name = findViewById(R.id.add_profile_name);
         add_phone = findViewById(R.id.add_phone_number);
         add_sex = findViewById(R.id.add_sex);
-
+//
 
         add_name.setText(name);
         add_phone.setText(phoneNumber);

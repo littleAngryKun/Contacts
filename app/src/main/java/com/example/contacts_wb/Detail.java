@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.content.Intent;
@@ -20,6 +22,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.contacts_wb.Adapter.CallLogAdapter;
 import com.example.contacts_wb.database.CallLog;
 import com.example.contacts_wb.database.Contact;
 import com.example.contacts_wb.database.ContactRoomDatabase;
@@ -28,6 +31,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 public class Detail extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private CallLogAdapter callLogAdapter;
     private Contact contact;
     FloatingActionButton myfloat;
     NewContact Contacts;
@@ -51,6 +56,8 @@ public class Detail extends AppCompatActivity {
 
         mContactViewModel.setContactByName(name);
 
+        recyclerView = findViewById(R.id.CallLogList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         /**
          * 调用 observe() 方法来注册一个数据观察者。
          * getAllContacts() 方法返回的是一个 LiveData<List<Contact>> 对象，
@@ -72,6 +79,8 @@ public class Detail extends AppCompatActivity {
                 callLog=callLogs;
                 if(callLog.size()!=0)
                     System.out.println(callLogs.get(0).getCallerNumber());
+                callLogAdapter = new CallLogAdapter(callLogs);
+                recyclerView.setAdapter(callLogAdapter);
             }
         });
 

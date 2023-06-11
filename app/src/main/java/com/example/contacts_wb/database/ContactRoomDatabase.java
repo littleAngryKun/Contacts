@@ -68,7 +68,7 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
         Contact p3=new Contact("叶信托","178578784",1);
         Contact p4 = new Contact("李俊凯","18852090080",1);
 
-        CallLog c1 = new CallLog("邱汉宸","18168078784",120,System.currentTimeMillis(), true);
+        CallLog c1 = new CallLog("邱汉宸","18168078784",120,System.currentTimeMillis(), false);
         PopulateDbAsync(ContactRoomDatabase db) {
             mDao = db.contactDao();
         }
