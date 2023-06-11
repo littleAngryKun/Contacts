@@ -55,10 +55,19 @@ public class add_people extends AppCompatActivity {
                 String Name = add_name.getText().toString();
                 String Phone = add_phone.getText().toString();
 
-                if (add_sex.getText().toString().equals("男"))
-                    sex = 0;
-                else
+                if (add_sex.getText().toString().equals("女"))
                     sex = 1;
+                else
+                    sex = 0;
+
+                if(Name.equals("")){
+                    Toast.makeText(getApplicationContext(),
+                            "姓名不能为空！",
+                            Toast.LENGTH_SHORT).show();
+                    return;//姓名为空拒绝执行
+                }
+
+
 
                 Contact contact = new Contact(Name, Phone, sex);
                 contactViewModel.insert(contact);

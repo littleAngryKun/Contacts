@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
     private PinyinComparator pinyinComparator;
     private LinearLayout xuanfuLayout; // 顶部悬浮的layout
     private ContactRoomDatabase contactRoomDatabase;
-    private TextView xuanfaText, QunFa, set_people; // 悬浮的文字， 和右上角的群发，增加和删除按钮
+    private TextView xuanfaText, set_people; // 悬浮的文字， 和右上角的群发，增加和删除按钮
     private int lastFirstVisibleItem = -1;
     private boolean isNeedChecked; // 是否需要出现选择的按钮
 //    private WordViewModel mWordViewModel;
@@ -105,9 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
         xuanfaText = (TextView) findViewById(R.id.top_char);
         sideBar = (SideBar) findViewById(R.id.sidrbar);//SideBar 对象
         dialog = (TextView) findViewById(R.id.dialog);//提示弹框的 TextView 对象
-        QunFa = (TextView) findViewById(R.id.qunfa);//群发按钮对象
         set_people = (TextView) findViewById(R.id.set_people); //增删按钮的绑定
-        QunFa.setOnClickListener(this);
         set_people.setOnClickListener(this);
         sideBar.setTextView(dialog);//设置提示弹框
         /**
@@ -255,18 +253,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.qunfa:
-                if (isNeedChecked) {
-                    recyclerViewAdapter.setNeedCheck(false);
-                    isNeedChecked = false;
-                } else {
-
-                    recyclerViewAdapter.setNeedCheck(true);
-                    isNeedChecked = true;
-                }
-                recyclerViewAdapter.notifyDataSetChanged();
-                break;
-
             case R.id.set_people:
                 PopupWindow popupWindow = new PopupWindow(MainActivity.this);
 
@@ -279,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
                 popupWindow.setContentView(contentView);
 
                 // 设置 PopupWindow 的背景，以便在点击外部区域时自动关闭 PopupWindow
-                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+//                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
                 popupWindow.setOutsideTouchable(true);
 
                 // 显示 PopupWindow
@@ -313,5 +299,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
         Intent intent = new Intent(this, add_people.class);
         startActivity(intent);
 
+    }
+    public void qunfa(View view) {
+        if (isNeedChecked) {
+            recyclerViewAdapter.setNeedCheck(false);
+            isNeedChecked = false;
+        } else {
+
+            recyclerViewAdapter.setNeedCheck(true);
+            isNeedChecked = true;
+        }
+        recyclerViewAdapter.notifyDataSetChanged();
     }
 }
