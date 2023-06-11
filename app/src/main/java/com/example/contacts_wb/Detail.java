@@ -125,7 +125,16 @@ public class Detail extends AppCompatActivity {
 
     public void call(View view) {
         //电话页面
+        TextView name = findViewById(R.id.profile_name);
+        TextView phone = findViewById(R.id.profile_phone_number);
+
+        String call_name = name.getText().toString();
+        String call_phone = phone.getText().toString();
         Intent intent = new Intent(this, phone.class);
+
+        intent.putExtra("call_name",call_name);
+        intent.putExtra("call_phone",call_phone);
+
         startActivity(intent);
     }
 
