@@ -2,6 +2,8 @@ package com.example.contacts_wb;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,6 +21,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,10 +49,12 @@ public class Detail extends AppCompatActivity {
     List<CallLog>callLog;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
         TextView Name_textview = findViewById(R.id.profile_name);
         id = getIntent().getIntExtra("id",0);
         name = getIntent().getStringExtra("name");
@@ -164,6 +171,39 @@ public class Detail extends AppCompatActivity {
                 "删除成功",
                 Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+//    public void share(View view) {
+//        Bundle bundle = new Bundle();
+//        bundle.putString("ShareName", name);
+//        bundle.putString("SharePhoneNumber", PhoneNumber);
+//        shareFragment fragment = new shareFragment();
+//        fragment.setArguments(bundle);
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(android.R.id.content, new shareFragment());
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
+//    }
+    public void share(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString("ShareName", name);
+        bundle.putString("SharePhoneNumber", PhoneNumber);
+        shareFragment fragment = new shareFragment();
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(android.R.id.content, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    public void IsShared(View view) {
+        Toast.makeText(getApplicationContext(),
+                "分享成功",
+                Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
     }
 }

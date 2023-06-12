@@ -294,9 +294,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
     @Override
     public void onItemClick(View view, int position) {
         if (!isNeedChecked) {
-            Toast.makeText(getApplicationContext(),
-                    ((SortModel) recyclerViewAdapter.getItem(position)).getName(),
-                    Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(),
+//                    ((SortModel) recyclerViewAdapter.getItem(position)).getName(),
+//                    Toast.LENGTH_SHORT).show();
             //todo 在这里添加代码，功能为跳转到详情界面
             Intent intent = new Intent(this, Detail.class);
             intent.putExtra("id",((SortModel) recyclerViewAdapter.getItem(position)).getId());
