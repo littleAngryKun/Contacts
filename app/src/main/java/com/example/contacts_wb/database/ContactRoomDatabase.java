@@ -68,8 +68,8 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
         Contact p3=new Contact("叶信托","178578784",1);
         Contact p4 = new Contact("李俊凯","18852090080",1);
 
-        CallLog c1 = new CallLog(37,"邱汉宸","18168078784",120,System.currentTimeMillis(), false);
-        CallLog c2 = new CallLog(37,"邱汉宸","18168078784",170,System.currentTimeMillis(), true);
+        //CallLog c1 = new CallLog(37,"叶信托","178578784",20,System.currentTimeMillis(), true);
+        //CallLog c2 = new CallLog(37,"邱汉宸","18168078784",170,System.currentTimeMillis(), true);
 
         PopulateDbAsync(ContactRoomDatabase db) {
             mDao = db.contactDao();
@@ -82,8 +82,8 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
 //            mDao.insert(p2);
 //            mDao.insert(p3);
 //            mDao.insert(p4);
-                mDao.insert(c1);
-                mDao.insert(c2);
+            //mDao.insert(c1);
+            //mDao.insert(c2);
             return null;
         }
             // Start the app with a clean database every time.

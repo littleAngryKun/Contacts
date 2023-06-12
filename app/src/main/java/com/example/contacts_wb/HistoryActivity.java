@@ -33,14 +33,17 @@ public class HistoryActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    Intent dashboardIntent = new Intent(HistoryActivity.this, MainActivity.class);
-                    startActivity(dashboardIntent);
+                    Intent Intent1 = new Intent(HistoryActivity.this, MainActivity.class);
+                    startActivity(Intent1);
                     overridePendingTransition(0, 0);
                     return true;
                 case R.id.navigation_history:
-
+                    //  不用跳转
                     return true;
                 case R.id.navigation_call:
+                    Intent Intent2 = new Intent(HistoryActivity.this, dialing.class);
+                    startActivity(Intent2);
+                    overridePendingTransition(0, 0);
                     return true;
                 default:
                     return false;

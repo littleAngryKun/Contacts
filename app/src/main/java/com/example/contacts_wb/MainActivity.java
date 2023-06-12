@@ -70,11 +70,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
                     // 当前就在首页
                     return true;
                 case R.id.navigation_history:
-                    Intent dashboardIntent = new Intent(MainActivity.this, HistoryActivity.class);
-                    startActivity(dashboardIntent);
+                    Intent Intent1 = new Intent(MainActivity.this, HistoryActivity.class);
+                    startActivity(Intent1);
                     overridePendingTransition(0, 0);
                     return true;
                 case R.id.navigation_call:
+                    Intent Intent2 = new Intent(MainActivity.this, dialing.class);
+                    startActivity(Intent2);
+                    overridePendingTransition(0, 0);
                     return true;
                 default:
                     return false;
