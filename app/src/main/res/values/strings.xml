@@ -8,5 +8,8 @@
     <string name="hint_word">Contact…</string>
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Contact not saved because it is empty.</string>
+    <string name="navigation_home">home</string>
+    <string name="navigation_dashboard">call_logs</string>
+    <string name="navigation_notifications">phone</string>
 
 </resources>

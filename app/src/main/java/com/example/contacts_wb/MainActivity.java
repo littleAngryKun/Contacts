@@ -33,12 +33,14 @@ import androidx.room.Room;
 import com.example.contacts_wb.database.Contact;
 import com.example.contacts_wb.database.ContactDao;
 import com.example.contacts_wb.database.ContactRoomDatabase;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
  *
  */
 public class MainActivity extends AppCompatActivity implements OnClickListener ,RecyclerViewAdapter.OnItemClickListener{
     private ListView sortListView;
+    private BottomNavigationView bottomNavigationView;
     private SideBar sideBar; // 右边的引导
     private TextView dialog;
     private SortAdapter adapter; // 排序的适配器
@@ -61,6 +63,24 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    // 当前就在首页
+                    return true;
+                case R.id.navigation_history:
+                    Intent dashboardIntent = new Intent(MainActivity.this, HistoryActivity.class);
+                    startActivity(dashboardIntent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                case R.id.navigation_call:
+                    return true;
+                default:
+                    return false;
+            }
+        });
+
         contact = new ArrayList<>();
         //ViewModelProvider 是 Android Jetpack 架构中的一个类，用于管理 ViewModel 的生命周期
         mContactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);

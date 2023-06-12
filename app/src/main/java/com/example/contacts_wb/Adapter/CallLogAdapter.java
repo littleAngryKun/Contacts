@@ -72,4 +72,9 @@ public class CallLogAdapter extends RecyclerView.Adapter<CallLogAdapter.ViewHold
         SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.getDefault());
         return dateFormat.format(date);
     }
+
+    public void setCallLogs(List<CallLog> callLogs) {
+        this.callLogs = callLogs;
+        notifyDataSetChanged();
+    }
 }

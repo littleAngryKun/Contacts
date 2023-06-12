@@ -73,7 +73,7 @@ public class ContactViewModel extends AndroidViewModel {
      * 对通话记录的操作
      * @return
      */
-    LiveData<List<CallLog>> getmAllCallLogs(){ return mAllCallLogs;}
+    LiveData<List<CallLog>> getAllCallLogs(){ return mAllCallLogs;}
     //
     public void insert(CallLog callLog){ mRepository.insert(callLog);}
     //通过一个用户的电话查询和他相关的通话记录
