@@ -52,16 +52,23 @@ public class ContactViewModel extends AndroidViewModel {
     }
     //一些公共的方法,都是通过调用 ContactRepository 中相应的方法来实现的
     public void insert(Contact contact) { mRepository.insert(contact); }
-    public void DeleteById(String name){
-        mRepository.DeleteById(name);
+    public void DeleteById(int id){
+        mRepository.DeleteById(id);
     }
     public LiveData<String> getPhoneNumber(String name){
         return mRepository.getPhoneNumber(name);
     }
 
     public void setContactByName(String name){mContact = mRepository.getContactByName(name);}
+    public LiveData<Contact> getContactById(int id){return mRepository.getContactById(id);}
     public LiveData<Contact> getContactByName (){ return mContact;}
 
+    public void updateContact(Contact contact){
+        mRepository.updateContact(contact);
+    }
+    public void updateNameById(int id, String name){
+        mRepository.updateNameById(id,name);
+    }
     /**
      * 对通话记录的操作
      * @return
@@ -76,5 +83,9 @@ public class ContactViewModel extends AndroidViewModel {
     //通过一个用户的用户名查询和他相关的通话记录
     public LiveData<List<CallLog>> getCallLogsByContactName(String Name){
         return mRepository.getCallLogsByContactName(Name);
+    }
+    //通过一个联系人的id外键来查询
+    public LiveData<List<CallLog>> getCallLogsByContactId(int id){
+        return mRepository.getCallLogsByPhoneId(id);
     }
 }

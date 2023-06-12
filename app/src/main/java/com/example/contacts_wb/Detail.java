@@ -37,6 +37,7 @@ public class Detail extends AppCompatActivity {
     FloatingActionButton myfloat;
     NewContact Contacts;
     ContactViewModel mContactViewModel;
+    int id;
     String name;
     String PhoneNumber;
     Integer sex;
@@ -48,7 +49,7 @@ public class Detail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         TextView Name_textview = findViewById(R.id.profile_name);
-
+        id = getIntent().getIntExtra("id",0);
         name = getIntent().getStringExtra("name");
 
         //ViewModelProvider 是 Android Jetpack 架构中的一个类，用于管理 ViewModel 的生命周期
@@ -63,7 +64,7 @@ public class Detail extends AppCompatActivity {
          * getAllContacts() 方法返回的是一个 LiveData<List<Contact>> 对象，
          * 这个对象支持数据观察者模式，当数据库中的联系人信息发生变化时，可以自动将变化的数据发送给已经注册的观察者。
          */
-        mContactViewModel.getCallLogsByContactName(name).observe(this, new Observer<List<CallLog>>() {
+        mContactViewModel.getCallLogsByContactId(id).observe(this, new Observer<List<CallLog>>() {
             /**
              * 当数据库中的联系人信息发生变化时，LiveData 会自动调用这个 Observer 对象的 onChanged() 方法，
              * 将变化的数据发送给已经注册的观察者。
@@ -131,7 +132,7 @@ public class Detail extends AppCompatActivity {
             String call_name = name.getText().toString();
             String call_phone = phone.getText().toString();
             Intent intent = new Intent(this, phone.class);
-
+            intent.putExtra("caller_id",id);
             intent.putExtra("call_name",call_name);
             intent.putExtra("call_phone",call_phone);
 
@@ -147,6 +148,7 @@ public class Detail extends AppCompatActivity {
 
     public void change_activity(View view) {
         Intent intent = new Intent(this, add_people.class);
+        intent.putExtra("id",id);
         intent.putExtra("name",name);
         intent.putExtra("phone",PhoneNumber);
         intent.putExtra("sex",sex);
@@ -156,9 +158,8 @@ public class Detail extends AppCompatActivity {
     public void delete_people(View view) {
         TextView Name_textview = findViewById(R.id.profile_name);
         String name = Name_textview.getText().toString();
-        //删除数据库
-        mContactViewModel.DeleteById(name);
-
+        //根据id在数据库中删除该联系人
+        mContactViewModel.DeleteById(id);
         Toast.makeText(getApplicationContext(),
                 "删除成功",
                 Toast.LENGTH_SHORT).show();

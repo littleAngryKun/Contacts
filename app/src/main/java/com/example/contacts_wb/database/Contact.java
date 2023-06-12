@@ -1,5 +1,6 @@
 package com.example.contacts_wb.database;
 
+import androidx.annotation.ColorLong;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -9,7 +10,9 @@ import java.util.List;
 
 @Entity(tableName = "contact_table")
 public class Contact {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private int id;
     @NonNull
     @ColumnInfo(name = "name")
     private String name;
@@ -25,6 +28,12 @@ public class Contact {
         this.sex=sex;
 //        this.callLogs=callLogs;
     }
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getName(){
         return this.name;
     }
@@ -34,6 +43,9 @@ public class Contact {
 //    public List<CallLog> getCallLogs() {
 //        return callLogs;
 //    }
+    public void setName(String name){this.name =name;}
+    public void setPhonenumber(String phonenumber){this.phonenumber = phonenumber;}
+    public void setSex(int sex){this.sex = sex;}
     public int getSex() {
         return sex;
     }

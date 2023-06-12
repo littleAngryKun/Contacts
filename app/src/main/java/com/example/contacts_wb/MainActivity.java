@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
 //                    ContactArray[i] = contacts.get(i).getName();
 //                }
                 contact=contacts;//将查询到的联系人信息保存到 contact 变量中
-
                 initViews();//调用 initViews() 方法来初始化应用程序的界面。
             }
         });
@@ -186,23 +185,24 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
     private List<SortModel> filledData(List<Contact> contactLiveData) {
 
         String [] ContactArray = new String[contactLiveData.size()];
+        String [] PhoneNumber = new String[contactLiveData.size()];
+        int [] sex = new int[contactLiveData.size()];
+        int [] id = new int[contactLiveData.size()];
         for (int i = 0; i < contactLiveData.size(); i++) {
             ContactArray[i] = contactLiveData.get(i).getName();
-        }
-        String [] PhoneNumber = new String[contactLiveData.size()];
-        for (int i=0;i<contactLiveData.size();i++){
             PhoneNumber[i] =contactLiveData.get(i).getPhonenumber();
+            sex[i]=contactLiveData.get(i).getSex();
+            id[i]=contactLiveData.get(i).getId();
         }
 
         List<SortModel> mSortList = new ArrayList<SortModel>();
-
-        //String[]data=
         //遍历输入的字符串数组，并为每个字符串创建一个SortModel对象。
         for (int i = 0; i < ContactArray.length; i++) {
             SortModel sortModel = new SortModel();
             sortModel.setName(ContactArray[i]);
             sortModel.setPhoneNumber(PhoneNumber[i]);
-            sortModel.setSex(i % 2);//先随便设置性别
+            sortModel.setSex(sex[i]);//先随便设置性别
+            sortModel.setId(id[i]);
             /**
              * 使用characterParser对象的getSelling()方法获取每个字符串的拼音，并从拼音中提取第一个字符。
              * 然后，它将字符转换为大写字母，并将结果存储在sortString字符串变量中。
@@ -279,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
                     Toast.LENGTH_SHORT).show();
             //todo 在这里添加代码，功能为跳转到详情界面
             Intent intent = new Intent(this, Detail.class);
+            intent.putExtra("id",((SortModel) recyclerViewAdapter.getItem(position)).getId());
             intent.putExtra("name", ((SortModel) recyclerViewAdapter.getItem(position)).getName());
             intent.putExtra("phone", ((SortModel) recyclerViewAdapter.getItem(position)).getPhoneNumber());
             intent.putExtra("sex", ((SortModel) recyclerViewAdapter.getItem(position)).getSex());

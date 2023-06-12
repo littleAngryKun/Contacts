@@ -28,6 +28,9 @@ public class ContactRepository {
     public LiveData<String> getPhoneNumber(String name){
         return contactDao.getPhoneNumberByName(name);//查询指定姓名对应的电话号码，并返回一个 LiveData 对象。
     }
+    public LiveData<Contact> getContactById(int contactId) {
+        return contactDao.getContactById(contactId);
+    }
     public LiveData<Contact> getContactByName(String name){ return contactDao.getContactByName(name);}
     public LiveData<List<CallLog>> getmAllCallLogs(){return  mAllCallLogs;}
     //通过一个用户的电话查询和他相关的通话记录
@@ -58,27 +61,62 @@ public class ContactRepository {
             return null;
         }
     }
-
-
     //根据姓名从数据库中删除一个联系人信息,通过异步去执行
-    public void DeleteById (String name) {
-        new deleteAsyncTask(contactDao).execute(name);
+    public void DeleteById (int id) {
+        new deleteAsyncTask(contactDao).execute(id);
     }
     //插入操作需要异步
-    private static class deleteAsyncTask extends AsyncTask<String, Void, Void> {
+    private static class deleteAsyncTask extends AsyncTask<Integer, Void, Void> {
         private ContactDao mAsyncTaskDao;
         deleteAsyncTask(ContactDao dao) {
             mAsyncTaskDao = dao;
         }
         @Override
-        protected Void doInBackground(final String... params) {
+        protected Void doInBackground(final Integer... params) {
             mAsyncTaskDao.DeleteById(params[0]);
+            return null;
+        }
+    }
+    //更新联系人
+    public void updateContact(Contact contact) {
+        new UpdateContactAsyncTask(contactDao).execute(contact);
+    }
+    //使用异步去执行
+    private static class UpdateContactAsyncTask extends AsyncTask<Contact, Void, Void> {
+        private ContactDao contactDao;
+
+        public UpdateContactAsyncTask(ContactDao contactDao) {
+            this.contactDao = contactDao;
+        }
+        @Override
+        protected Void doInBackground(Contact... contacts) {
+            contactDao.updateContact(contacts[0]);
+            return null;
+        }
+    }
+    public void updateNameById(int id, String newName){new UpdateContactNameAsyncTask(contactDao).execute(id, newName);}
+    //用异步来对联系人名字进行更改
+    private static class UpdateContactNameAsyncTask extends AsyncTask<Object, Void, Void> {
+        private ContactDao contactDao;
+
+        public UpdateContactNameAsyncTask(ContactDao contactDao) {
+            this.contactDao = contactDao;
+        }
+        @Override
+        protected Void doInBackground(Object... objects) {
+            int id = (int) objects[0];
+            String newName = (String) objects[1];
+            contactDao.updateNameById(id, newName);
             return null;
         }
     }
 
     public void insert (CallLog callLog){
         new insertAsyncTask_calllog(contactDao).execute(callLog);
+    }
+    //根据联系人外键id来查询通话记录
+    public LiveData<List<CallLog>> getCallLogsByPhoneId(int id){
+        return contactDao.getCallLogsByCallerId(id);
     }
     //插入通话记录操作需要异步
     private static class  insertAsyncTask_calllog extends AsyncTask<CallLog,Void,Void>{

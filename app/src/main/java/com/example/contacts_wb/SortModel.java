@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class SortModel implements Serializable {
 
+	private int id;
 	private String name;
 	private String sortLetters;
 	private String PhoneNumber;
@@ -73,26 +74,23 @@ public class SortModel implements Serializable {
 		this.iconUrl = iconUrl;
 	}
 
+	public int getId(){return  id;}
+	public void setId(int id){this.id = id;}
 	public int getSex() {
 		return sex;
 	}
-
 	public void setSex(int sex) {
 		this.sex = sex;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getSortLetters() {
 		return sortLetters;
 	}
-
 	public void setSortLetters(String sortLetters) {
 		this.sortLetters = sortLetters;
 	}

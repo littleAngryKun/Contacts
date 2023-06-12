@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.example.contacts_wb.database.Contact;
@@ -21,6 +22,10 @@ import java.util.List;
  */
 @Dao
 public interface ContactDao {
+    /**
+     * 对Conatct操作
+     * @return
+     */
     @Query("SELECT * from contact_table ORDER BY name ASC")
     LiveData<List<Contact>> getAlphabetizedWords();
     @Query("SELECT * from contact_table ORDER BY name ASC")
@@ -31,16 +36,41 @@ public interface ContactDao {
     void deleteAll();
     @Query("SELECT * from contact_table LIMIT 1")
     Contact[] getAnyContact();
+    //通过名字来查询
     @Query("SELECT * FROM contact_table WHERE name = :name")
     LiveData<Contact> getContactByName(String name);
+    //通过名字来删除
     @Query("DELETE FROM contact_table WHERE name = :name")
-    void DeleteById(String name);
+    void DeleteByName(String name);
+    //更新联系人
+    @Update
+    void updateContact(Contact contact);
+    //根据id来改变姓名
+    @Query("UPDATE contact_table SET name = :newName WHERE id = :id")
+    void updateNameById(int id, String newName);
+
+    //通过id来查询
+    @Query("SELECT * FROM contact_table WHERE id = :id")
+    LiveData<Contact> getContactById(int id);
+    @Query("DELETE FROM contact_table WHERE id = :id")
+    void DeleteById(int id);
+
+    //通过名字来获取联系人的号码
     @Query("SELECT phonenumber FROM contact_table WHERE name = :name")
     LiveData<String> getPhoneNumberByName(String name);
 
+
+    /**
+     * 对CallLog操作
+     * @return
+     */
     // 获取所有通话记录，并按通话时间倒序排序
     @Query("SELECT * FROM call_log_table ORDER BY call_time DESC")
     LiveData<List<CallLog>> getAllCallLogs();
+    // 根据根据联系人id来查询通话记录（这样查询，即便是修改了名字，也可以准确查询之前的通话记录）
+    @Transaction
+    @Query("SELECT * FROM call_log_table WHERE caller_id = :callerId ORDER BY call_time DESC")
+    LiveData<List<CallLog>> getCallLogsByCallerId(long callerId);
     // 根据电话号码查询与该号码相关的所有通话记录，并按通话时间倒序排序
     @Query("SELECT * FROM call_log_table WHERE caller_number = :phoneNumber ORDER BY call_time DESC")
     LiveData<List<CallLog>> getCallLogsByPhoneNumber(String phoneNumber);

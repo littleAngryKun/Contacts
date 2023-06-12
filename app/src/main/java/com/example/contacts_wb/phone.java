@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 public class phone extends AppCompatActivity {
     ContactViewModel mContactViewModel;
+    int caller_id;
     String call_name;
     String call_phone;
     long call_time;
@@ -48,6 +49,7 @@ public class phone extends AppCompatActivity {
         //ViewModelProvider 是 Android Jetpack 架构中的一个类，用于管理 ViewModel 的生命周期
         mContactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
         Intent intent = getIntent();
+        caller_id = intent.getIntExtra("caller_id",0);
         call_name = intent.getStringExtra("call_name");
         call_phone = intent.getStringExtra("call_phone");
         call_time=System.currentTimeMillis();
@@ -74,7 +76,7 @@ public class phone extends AppCompatActivity {
         call_end=System.currentTimeMillis();
         call_duration=(int)(call_end-call_time)/1000;
         System.out.println(call_name);
-        CallLog callLog = new CallLog(call_name,call_phone,call_duration,call_time,true);
+        CallLog callLog = new CallLog(caller_id,call_name,call_phone,call_duration,call_time,true);
         mContactViewModel.insert(callLog);
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);

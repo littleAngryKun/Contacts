@@ -1,6 +1,8 @@
 package com.example.contacts_wb;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -19,6 +21,7 @@ public class add_people extends AppCompatActivity {
     TextInputEditText add_sex;
 
     ContactViewModel contactViewModel;
+    int id;
     String name = null;
     String phoneNumber = null;
     Integer sex = null;
@@ -28,6 +31,7 @@ public class add_people extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_people);
         contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
+        id = getIntent().getIntExtra("id",0);
         name = getIntent().getStringExtra("name");
         phoneNumber = getIntent().getStringExtra("phone");
         sex = getIntent().getIntExtra("sex", 0);
@@ -63,11 +67,25 @@ public class add_people extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     return;//姓名为空拒绝执行
                 }
+//                Contact contact = new Contact(Name, Phone, sex);
+//                contactViewModel.DeleteById(name);
+//                contactViewModel.insert(contact);
+                System.out.println(id);
+                LiveData<Contact> contactLiveData = contactViewModel.getContactById(id);
+// 观察 LiveData 对象并处理返回的数据
+                contactLiveData.observe(add_people.this, new Observer<Contact>() {
+                    @Override
+                    public void onChanged(Contact contact) {
+                        // 处理返回的联系人数据
+                        // 在这里进行更新操作，
+                        contact.setName(Name);
+                        contact.setPhonenumber(Phone);
+                        contact.setSex(sex);
+                        // 将更新后的联系人数据保存回数据库
+                        contactViewModel.updateContact(contact);
+                    }
+                });
 
-
-                Contact contact = new Contact(Name, Phone, sex);
-                contactViewModel.DeleteById(name);
-                contactViewModel.insert(contact);
                 Intent intent = new Intent(add_people.this, MainActivity.class);
                 startActivity(intent);
             }
