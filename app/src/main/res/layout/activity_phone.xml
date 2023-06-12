@@ -5,12 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".phone">
+    <!-- 计时器文本 -->
+    <TextView
+        android:id="@+id/timerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="32dp"
+        android:text="00:00"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+
+
+    <!-- 挂断按钮 -->
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/hangupButton"-->
+    <!--        android:layout_width="72dp"-->
+    <!--        android:layout_height="72dp"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:layout_marginBottom="32dp"-->
+    <!--        android:background="@drawable/circle_bg"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--        <ImageView-->
+    <!--            android:layout_width="28dp"-->
+    <!--            android:layout_height="28dp"-->
+    <!--            android:layout_centerInParent="true"-->
+    <!--            android:src="@drawable/ic_hangup" />-->
+
+    <!--    </ImageButton>-->
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="挂断"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
