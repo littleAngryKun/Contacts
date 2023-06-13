@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
  * entities 属性指定了这个数据库中的实体类，这里只有一个 Contact 类；
  * exportSchema 属性指定了是否导出数据库的模式信息，这里设置为 false。
  */
-@Database(entities = {Contact.class ,CallLog.class}, version = 8, exportSchema = false)
+@Database(entities = {Contact.class ,CallLog.class}, version = 9, exportSchema = false)
 public abstract class ContactRoomDatabase extends RoomDatabase {
 
     /**这个抽象方法 contactDao() 实际上是由 Room 数据库框架来实现的。
