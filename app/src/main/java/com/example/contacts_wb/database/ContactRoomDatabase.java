@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
  * entities 属性指定了这个数据库中的实体类，这里只有一个 Contact 类；
  * exportSchema 属性指定了是否导出数据库的模式信息，这里设置为 false。
  */
-@Database(entities = {Contact.class ,CallLog.class}, version = 9, exportSchema = false)
+@Database(entities = {Contact.class ,CallLog.class}, version = 8, exportSchema = false)
 public abstract class ContactRoomDatabase extends RoomDatabase {
 
     /**这个抽象方法 contactDao() 实际上是由 Room 数据库框架来实现的。
@@ -68,7 +68,7 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
         Contact p3=new Contact("叶信托","178578784",1);
         Contact p4 = new Contact("李俊凯","18852090080",1);
 
-        //CallLog c1 = new CallLog(37,"叶信托","178578784",20,System.currentTimeMillis(), true);
+       // CallLog c1 = new CallLog(37,"邱汉宸","18168078784",120,System.currentTimeMillis(), false);
         //CallLog c2 = new CallLog(37,"邱汉宸","18168078784",170,System.currentTimeMillis(), true);
 
         PopulateDbAsync(ContactRoomDatabase db) {
@@ -82,8 +82,8 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
 //            mDao.insert(p2);
 //            mDao.insert(p3);
 //            mDao.insert(p4);
-            //mDao.insert(c1);
-            //mDao.insert(c2);
+//                mDao.insert(c1);
+//                mDao.insert(c2);
             return null;
         }
             // Start the app with a clean database every time.
