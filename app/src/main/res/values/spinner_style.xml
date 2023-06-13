@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <resources xmlns:android="http://schemas.android.com/apk/res/android">
+        <style name="spinner_textstyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+            <item name="android:paddingLeft">16dp</item>
+            <item name="android:paddingRight">16dp</item>
+            <item name="android:paddingTop">8dp</item>
+            <item name="android:paddingBottom">8dp</item>
+            <item name="android:textColor">@color/white</item>
+            <item name="android:textSize">16sp</item>
+        </style>
+    </resources>

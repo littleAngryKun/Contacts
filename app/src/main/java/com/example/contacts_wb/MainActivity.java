@@ -315,6 +315,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener ,
     }
     public void add_activity(View view) {
         Intent intent = new Intent(this, add_people.class);
+        intent.putExtra("is_new",true);
         startActivity(intent);
 
     }
