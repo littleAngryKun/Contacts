@@ -57,7 +57,6 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
      */
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final ContactDao mDao;
-        private List<Contact> contacts = new ArrayList<>();
 
         PopulateDbAsync(ContactRoomDatabase db) {
             mDao = db.contactDao();
@@ -65,7 +64,8 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-//            mDao.deleteAll();
+            List<Contact> contacts = new ArrayList<>();
+            mDao.deleteAll();
             contacts.add(new Contact("邱汉宸","18168078784",0));
             contacts.add(new Contact("刘宇恒","18287416749",0));
             contacts.add(new Contact("叶信托","1885119620",0));
