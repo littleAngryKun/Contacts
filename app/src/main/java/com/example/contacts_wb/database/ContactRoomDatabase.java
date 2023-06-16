@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.room.*;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * entities 属性指定了这个数据库中的实体类，这里只有一个 Contact 类；
  * exportSchema 属性指定了是否导出数据库的模式信息，这里设置为 false。
@@ -54,22 +57,7 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
      */
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final ContactDao mDao;
-        String[] name = {"邱汉宸", "叶信托", "刘宇恒", "李俊凯", "李俊凯2"};
-        String[] phonenumber = {
-                "123456",
-                "110",
-                "120",
-                "119",
-                "121"
-        };
-        int [] sex={0,0,0,1,1};
-        Contact p1=new Contact("邱汉宸","18168078784",1);
-        Contact p2=new Contact("刘宇恒","78784",1);
-        Contact p3=new Contact("叶信托","178578784",1);
-        Contact p4 = new Contact("李俊凯","18852090080",1);
-
-       // CallLog c1 = new CallLog(37,"邱汉宸","18168078784",120,System.currentTimeMillis(), false);
-        //CallLog c2 = new CallLog(37,"邱汉宸","18168078784",170,System.currentTimeMillis(), true);
+        private List<Contact> contacts = new ArrayList<>();
 
         PopulateDbAsync(ContactRoomDatabase db) {
             mDao = db.contactDao();
@@ -78,12 +66,112 @@ public abstract class ContactRoomDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(final Void... params) {
 //            mDao.deleteAll();
-//            mDao.insert(p1);//插入三个测试数据 p1、p2 和 p3
-//            mDao.insert(p2);
-//            mDao.insert(p3);
-//            mDao.insert(p4);
-//                mDao.insert(c1);
-//                mDao.insert(c2);
+            contacts.add(new Contact("邱汉宸","18168078784",0));
+            contacts.add(new Contact("刘宇恒","18287416749",0));
+            contacts.add(new Contact("叶信托","1885119620",0));
+            contacts.add(new Contact("李俊凯","18852090080",1));
+            contacts.add(new Contact("张晓宇", "18812345678", 0));
+            contacts.add(new Contact("王晨阳", "18787654321", 0));
+            contacts.add(new Contact("陈美丽", "18698765432", 1));
+            contacts.add(new Contact("赵伟杰", "18587654321", 0));
+            contacts.add(new Contact("刘芳", "18312345678", 1));
+            contacts.add(new Contact("陈晓明", "18898765432", 0));
+            contacts.add(new Contact("李婷婷", "18712345678", 1));
+            contacts.add(new Contact("王伟", "18687654321", 0));
+            contacts.add(new Contact("张丽", "18598765432", 1));
+            contacts.add(new Contact("刘鑫", "18387654321", 0));
+            contacts.add(new Contact("王敏", "18212345678", 1));
+            contacts.add(new Contact("赵宇", "18198765432", 0));
+            contacts.add(new Contact("孙美丽", "18087654321", 1));
+            contacts.add(new Contact("李强", "18822345678", 0));
+            contacts.add(new Contact("王璐", "18798765432", 1));
+            contacts.add(new Contact("李明", "18322345678", 0));
+            contacts.add(new Contact("周静", "18298765432", 1));
+            contacts.add(new Contact("张伟", "18187654321", 0));
+            contacts.add(new Contact("陈玉", "18022345678", 1));
+            contacts.add(new Contact("刘军", "18898765432", 0));
+            contacts.add(new Contact("王阳", "18712345678", 0));
+            contacts.add(new Contact("张丹", "18687654321", 1));
+            contacts.add(new Contact("李小宇", "18598765432", 0));
+            contacts.add(new Contact("陈明", "18387654321", 0));
+            contacts.add(new Contact("王梦", "18212345678", 1));
+            contacts.add(new Contact("张飞", "18198765432", 0));
+            contacts.add(new Contact("刘备", "18087654321", 1));
+            contacts.add(new Contact("关羽", "18822345678", 0));
+            contacts.add(new Contact("曹操", "18798765432", 1));
+            contacts.add(new Contact("孙权", "18612345678", 0));
+            contacts.add(new Contact("周瑜", "18587654321", 1));
+            contacts.add(new Contact("诸葛亮", "18312345678", 0));
+            contacts.add(new Contact("黄忠", "18298765432", 1));
+            contacts.add(new Contact("赵云", "18187654321", 0));
+            contacts.add(new Contact("马超", "18022345678", 1));
+            contacts.add(new Contact("张无忌", "18898765432", 0));
+            contacts.add(new Contact("赵敏", "18712345678", 1));
+            contacts.add(new Contact("周芷若", "18687654321", 1));
+            contacts.add(new Contact("小龙女", "18598765432", 1));
+            contacts.add(new Contact("杨过", "18387654321", 0));
+            contacts.add(new Contact("郭靖", "18212345678", 0));
+            contacts.add(new Contact("黄蓉", "18187654321", 1));
+            contacts.add(new Contact("欧阳林", "18022345678", 0));
+            contacts.add(new Contact("洪七公", "18898765432", 1));
+            contacts.add(new Contact("段誉", "18712345678", 0));
+            contacts.add(new Contact("虚竹", "18687654321", 1));
+            contacts.add(new Contact("慕容复", "18598765432", 0));
+            contacts.add(new Contact("华山老祖", "18387654321", 1));
+            contacts.add(new Contact("令狐冲", "18212345678", 0));
+            contacts.add(new Contact("岳不群", "18187654321", 1));
+            contacts.add(new Contact("张三丰", "18022345678", 0));
+            contacts.add(new Contact("李莫愁", "18898765432", 1));
+            contacts.add(new Contact("周伯通", "18712345678", 0));
+            contacts.add(new Contact("全真七子", "18687654321", 1));
+            contacts.add(new Contact("玄慈大师", "18598765432", 1));
+            contacts.add(new Contact("段正淳", "18387654321", 0));
+            contacts.add(new Contact("张翠山", "18212345678", 0));
+            contacts.add(new Contact("殷素素", "18187654321", 1));
+            contacts.add(new Contact("乔峰", "18022345678", 0));
+            contacts.add(new Contact("段誉", "18898765432", 1));
+            contacts.add(new Contact("虚竹", "18712345678", 0));
+            contacts.add(new Contact("慕容复", "18687654321", 1));
+            contacts.add(new Contact("华山老妪", "18598765432", 1));
+            contacts.add(new Contact("令狐冲", "18387654321", 0));
+            contacts.add(new Contact("岳灵珊", "18212345678", 1));
+            contacts.add(new Contact("林平之", "18187654321", 0));
+            contacts.add(new Contact("刘正风", "18022345678", 1));
+            contacts.add(new Contact("黄药师", "18898765432", 0));
+            contacts.add(new Contact("欧阳锋", "18712345678", 1));
+            contacts.add(new Contact("杨康", "18687654321", 0));
+            contacts.add(new Contact("穆念慈", "18598765432", 1));
+            contacts.add(new Contact("郭靖", "18387654321", 0));
+            contacts.add(new Contact("黄蓉", "18212345678", 1));
+            contacts.add(new Contact("杨过", "18187654321", 0));
+            contacts.add(new Contact("小龙女", "18022345678", 1));
+            contacts.add(new Contact("张无忌", "18898765432", 0));
+            contacts.add(new Contact("赵敏", "18712345678", 1));
+            contacts.add(new Contact("周芷若", "18687654321", 1));
+            contacts.add(new Contact("武当七侠", "18598765432", 0));
+            contacts.add(new Contact("胡斐", "18387654321", 1));
+            contacts.add(new Contact("苗人凤", "18212345678", 0));
+            contacts.add(new Contact("袁承志", "18187654321", 1));
+            contacts.add(new Contact("成吉思汗", "18022345678", 0));
+            contacts.add(new Contact("忽必烈", "18898765432", 1));
+            contacts.add(new Contact("哪吒", "18712345678", 0));
+            contacts.add(new Contact("杨戬", "18687654321", 1));
+            contacts.add(new Contact("太乙真人", "18598765432", 0));
+            contacts.add(new Contact("红孩儿", "18387654321", 1));
+            contacts.add(new Contact("二郎神", "18212345678", 0));
+            contacts.add(new Contact("雷震子", "18187654321", 1));
+            contacts.add(new Contact("金角大王", "18022345678", 0));
+            contacts.add(new Contact("木妖", "18898765432", 1));
+            contacts.add(new Contact("水妖", "18712345678", 0));
+            contacts.add(new Contact("土地公公", "18687654321", 1));
+            contacts.add(new Contact("玉皇大帝", "18598765432", 0));
+            contacts.add(new Contact("观音菩萨", "18387654321", 1));
+            contacts.add(new Contact("毗湿奴", "18212345678", 0));
+            contacts.add(new Contact("文殊菩萨", "18187654321", 1));
+            contacts.add(new Contact("普贤菩萨", "18022345678", 0));
+            for (int i=0;i<contacts.size();i++){
+                mDao.insert(contacts.get(i));
+            }
             return null;
         }
             // Start the app with a clean database every time.
