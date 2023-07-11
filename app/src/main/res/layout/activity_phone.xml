@@ -4,6 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".phone">
+    tools:context=".phone"
+    style="@style/TopBg">
+    <!-- 计时器文本 -->
 
+
+    <!-- 挂断按钮 -->
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/hangupButton"-->
+    <!--        android:layout_width="72dp"-->
+    <!--        android:layout_height="72dp"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:layout_marginBottom="32dp"-->
+    <!--        android:background="@drawable/circle_bg"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--        <ImageView-->
+    <!--            android:layout_width="28dp"-->
+    <!--            android:layout_height="28dp"-->
+    <!--            android:layout_centerInParent="true"-->
+    <!--            android:src="@drawable/ic_hangup" />-->
+
+    <!--    </ImageButton>-->
+
+    <TextView
+        android:id="@+id/timerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="116dp"
+        android:text="00:00"
+        android:textColor="@color/white"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/baseline_phone_disabled_24"
+        android:onClick="phone_down"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.867" />
 </androidx.constraintlayout.widget.ConstraintLayout>

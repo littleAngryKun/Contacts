@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".dialing"
+    style="@style/TopBg">
+
+    <LinearLayout
+        android:id="@+id/linearlayout_big"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="70dp">
+
+        <TextView
+            android:id="@+id/dialing_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="18287416749"
+            android:textColor="@color/white"
+            android:textSize="50dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/baseline_circle_24"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/baseline_circle_24"
+                android:text="2"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/baseline_circle_24"
+                android:text="3"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/baseline_circle_24"
+                android:text="4"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/baseline_circle_24"
+                android:text="5"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/baseline_circle_24"
+                android:text="6"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/baseline_circle_24"
+                android:text="7"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/baseline_circle_24"
+                android:text="8"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/baseline_circle_24"
+                android:text="9"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/baseline_circle_24"
+                android:text="*"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/baseline_phone_forwarded_24" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/baseline_circle_24"
+                android:text="#"
+                android:textColor="@color/white"
+                android:textSize="50dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
+        app:itemIconTint="#8E8E8E"
+        app:itemTextColor="#2196F3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.301"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearlayout_big"
+        app:layout_constraintVertical_bias="1.0"
+        app:menu="@menu/bottom_navigation_menu" />
+</androidx.constraintlayout.widget.ConstraintLayout>

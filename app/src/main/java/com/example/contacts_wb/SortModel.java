@@ -1,6 +1,9 @@
 package com.example.contacts_wb;
 
+import android.provider.CallLog;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author
@@ -9,24 +12,46 @@ import java.io.Serializable;
  */
 public class SortModel implements Serializable {
 
+	private int id;
 	private String name;
 	private String sortLetters;
+	private String PhoneNumber;
 	private boolean isChecked;
 	private String iconUrl;
 	private int sex; // 0 男 1 女
+	private List<CallLog> callLogs;
+
+	public List<CallLog> getCallLogs() {
+		return callLogs;
+	}
+
+	public void setCallLogs(List<CallLog> callLogs) {
+		this.callLogs = callLogs;
+	}
+
 	public SortModel(String name){
 		super();
 		this.name=name;
 		this.sortLetters="#";
 	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		PhoneNumber = phoneNumber;
+	}
+
+	public String getPhoneNumber() {
+		return PhoneNumber;
+	}
+
 	public SortModel(String name, String sortLetters, boolean isChecked,
-			String iconUrl, int sex) {
+					 String iconUrl, int sex,List<CallLog>callLogs) {
 		super();
 		this.name = name;
 		this.sortLetters = sortLetters;
 		this.isChecked = isChecked;
 		this.iconUrl = iconUrl;
 		this.sex = sex;
+		this.callLogs=callLogs;
 	}
 
 	public SortModel() {
@@ -49,26 +74,23 @@ public class SortModel implements Serializable {
 		this.iconUrl = iconUrl;
 	}
 
+	public int getId(){return  id;}
+	public void setId(int id){this.id = id;}
 	public int getSex() {
 		return sex;
 	}
-
 	public void setSex(int sex) {
 		this.sex = sex;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getSortLetters() {
 		return sortLetters;
 	}
-
 	public void setSortLetters(String sortLetters) {
 		this.sortLetters = sortLetters;
 	}
